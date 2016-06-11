@@ -8,3 +8,5 @@ index.js
 src/**/*.js
 
 bundle.js
+bundle.min.js
+bundle.map
