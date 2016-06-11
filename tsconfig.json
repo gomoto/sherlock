@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noEmitOnError": false,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "target": "es5"
+  },
+  "compileOnSave": true,
+  "buildOnSave": false,
+  "filesGlob": [
+    "index.ts",
+    "src/**/*.ts",
+    "typings/**/*.d.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  },
+  "files": [
+    "index.ts",
+    "typings/globals/angular/index.d.ts",
+    "typings/globals/jquery/index.d.ts",
+    "typings/index.d.ts"
+  ]
+}

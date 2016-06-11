@@ -1,0 +1,10 @@
+node_modules/
+typings/
+
+index.css
+src/**/*.css
+
+index.js
+src/**/*.js
+
+bundle.js
