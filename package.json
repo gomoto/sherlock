@@ -7,7 +7,7 @@
     "ts:clean": "trash src/**/*.js && trash src/*.js",
     "bundle": "mkdir -p build && browserify src/app.js > $npm_package_bundle",
     "bundle:clean": "trash $npm_package_bundle",
-    "minify": "uglifyjs $npm_package_bundle --output $npm_package_bundlemin --source-map $npm_package_bundlemap --mangle --compress",
+    "minify": "uglifyjs $npm_package_bundle --output $npm_package_bundlemin --source-map $npm_package_bundlemap --prefix relative --mangle --compress",
     "minify:clean": "trash $npm_package_bundlemin && trash $npm_package_bundlemap",
     "build": "npm run ts && npm run bundle && npm run minify && npm run style",
     "build:clean": "npm run ts:clean && trash build",
