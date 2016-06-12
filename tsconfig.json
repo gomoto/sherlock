@@ -18,6 +18,10 @@
   },
   "files": [
     "index.ts",
+    "src/app.routing.ts",
+    "src/note/note.controller.ts",
+    "src/note/note.module.ts",
+    "typings/globals/angular-ui-router/index.d.ts",
     "typings/globals/angular/index.d.ts",
     "typings/globals/jquery/index.d.ts",
     "typings/index.d.ts"
