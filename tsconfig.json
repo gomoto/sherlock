@@ -9,7 +9,6 @@
   "compileOnSave": true,
   "buildOnSave": false,
   "filesGlob": [
-    "index.ts",
     "src/**/*.ts",
     "typings/**/*.d.ts"
   ],
@@ -18,7 +17,7 @@
   },
   "files": [
     "src/app.routing.ts",
-    "src/index.ts",
+    "src/app.ts",
     "src/note/note.controller.ts",
     "src/note/note.module.ts",
     "typings/globals/angular-ui-router/index.d.ts",

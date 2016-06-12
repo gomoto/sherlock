@@ -5,13 +5,13 @@
     "postinstall": "typings install",
     "ts": "tsc",
     "ts:clean": "trash src/**/*.js && trash src/*.js",
-    "bundle": "mkdir -p build && browserify src/index.js > $npm_package_bundle",
+    "bundle": "mkdir -p build && browserify src/app.js > $npm_package_bundle",
     "bundle:clean": "trash $npm_package_bundle",
     "minify": "uglifyjs $npm_package_bundle --output $npm_package_bundlemin --source-map $npm_package_bundlemap --mangle --compress",
     "minify:clean": "trash $npm_package_bundlemin && trash $npm_package_bundlemap",
     "build": "npm run ts && npm run bundle && npm run minify && npm run style",
     "build:clean": "npm run ts:clean && trash build",
-    "style:scss": "node-sass src/index.scss $npm_package_css",
+    "style:scss": "node-sass src/app.scss $npm_package_css",
     "style:autoprefix": "postcss --use autoprefixer --replace --autoprefixer.browsers 'last 2 versions' $npm_package_css",
     "style": "npm run style:scss && npm run style:autoprefix",
     "style:clean": "trash $npm_package_css",
@@ -36,5 +36,5 @@
   "bundle": "build/bundle.js",
   "bundlemin": "build/bundle.min.js",
   "bundlemap": "build/bundle.map",
-  "css": "build/index.css"
+  "css": "build/app.css"
 }
