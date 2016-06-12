@@ -17,8 +17,8 @@
     "rewriteTsconfig": true
   },
   "files": [
-    "index.ts",
     "src/app.routing.ts",
+    "src/index.ts",
     "src/note/note.controller.ts",
     "src/note/note.module.ts",
     "typings/globals/angular-ui-router/index.d.ts",
