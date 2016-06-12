@@ -1,6 +1,8 @@
 build/
 node_modules/
-typings/
 
 src/**/*.css
 src/**/*.js
+
+typings/*
+!typings/pouchdb
