@@ -9,7 +9,6 @@
   "compileOnSave": true,
   "buildOnSave": false,
   "filesGlob": [
-    "index.ts",
     "src/**/*.ts",
     "typings/**/*.d.ts"
   ],
@@ -17,9 +16,17 @@
     "rewriteTsconfig": true
   },
   "files": [
-    "index.ts",
+    "src/app.routing.ts",
+    "src/app.ts",
+    "src/note/note.controller.ts",
+    "src/note/note.module.ts",
+    "src/pouchdb/pouchdb.design.ts",
+    "src/pouchdb/pouchdb.module.ts",
+    "src/pouchdb/pouchdb.service.ts",
+    "typings/globals/angular-ui-router/index.d.ts",
     "typings/globals/angular/index.d.ts",
     "typings/globals/jquery/index.d.ts",
-    "typings/index.d.ts"
+    "typings/index.d.ts",
+    "typings/pouchdb/pouchdb.d.ts"
   ]
 }

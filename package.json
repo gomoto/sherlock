@@ -4,17 +4,17 @@
   "scripts": {
     "postinstall": "typings install",
     "ts": "tsc",
-    "ts:clean": "trash index.js && trash src/**/*.js",
-    "bundle": "browserify index.js > bundle.js",
-    "bundle:clean": "trash bundle.js",
-    "minify": "uglifyjs bundle.js --output bundle.min.js --source-map bundle.map --mangle --compress",
-    "minify:clean": "trash bundle.min.js && trash bundle.map",
-    "build": "npm run ts && npm run bundle && npm run minify && npm run styles",
-    "build:clean": "npm run ts:clean && npm run bundle:clean && npm run minify:clean && npm run styles:clean",
-    "scss": "node-sass index.scss index.css",
-    "autoprefix": "postcss --use autoprefixer --replace --autoprefixer.browsers 'last 2 versions' index.css",
-    "styles": "npm run scss && npm run autoprefix",
-    "styles:clean": "trash index.css",
+    "ts:clean": "trash src/**/*.js && trash src/*.js",
+    "bundle": "mkdir -p build && browserify src/app.js > $npm_package_bundle",
+    "bundle:clean": "trash $npm_package_bundle",
+    "minify": "uglifyjs $npm_package_bundle --output $npm_package_bundlemin --source-map $npm_package_bundlemap --prefix relative --mangle --compress",
+    "minify:clean": "trash $npm_package_bundlemin && trash $npm_package_bundlemap",
+    "build": "npm run ts && npm run bundle && npm run minify && npm run style",
+    "build:clean": "npm run ts:clean && trash build",
+    "style:scss": "node-sass src/app.scss $npm_package_css",
+    "style:autoprefix": "postcss --use autoprefixer --replace --autoprefixer.browsers 'last 2 versions' $npm_package_css",
+    "style": "npm run style:scss && npm run style:autoprefix",
+    "style:clean": "trash $npm_package_css",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server -a 0.0.0.0 -p 9000"
   },
@@ -30,6 +30,12 @@
     "uglify-js": "^2.6.2"
   },
   "dependencies": {
-    "angular": "^1.5.6"
-  }
+    "angular": "^1.5.6",
+    "angular-ui-router": "^0.3.1",
+    "pouchdb": "^5.4.1"
+  },
+  "bundle": "build/bundle.js",
+  "bundlemin": "build/bundle.min.js",
+  "bundlemap": "build/bundle.map",
+  "css": "build/app.css"
 }

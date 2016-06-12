@@ -1,0 +1,20 @@
+<form ng-submit="$ctrl.submitNote()">
+  <input type="text"
+    ng-model="$ctrl.title"
+    class="note-title"
+    placeholder="Title"
+    title="Enter note title">
+  <textarea
+    ng-model="$ctrl.content"
+    class="note-content"
+    placeholder="Enter content">
+  </textarea>
+  <input type="text"
+    ng-model="$ctrl.tags"
+    class="note-tags"
+    placeholder="Tags">
+  <input type="submit"
+    value="Submit note"
+    class="note-submit"
+    title="Submit this note">
+</form>
