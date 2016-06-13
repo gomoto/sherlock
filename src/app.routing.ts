@@ -1,3 +1,5 @@
+import { INote } from './note/note.module';
+
 export default [
 
   '$locationProvider',
@@ -23,8 +25,17 @@ export default [
       template: '<janitor></janitor>'
     })
     .state('note', {
+      params: {
+        note: null
+      },
       template: '<note></note>'
     });
 
   }
 ];
+
+interface IStateParams {
+  note?: INote;
+};
+
+export { IStateParams }

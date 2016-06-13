@@ -4,11 +4,12 @@ export default class JanitorController {
 
   notes: any[];
 
-  static $inject = ['$log', 'pouchdb', '$window'];
+  static $inject = ['$log','pouchdb','$state','$window'];
 
   constructor(
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
+    private $state: ng.ui.IStateService,
     private $window: ng.IWindowService
   ) {
 
@@ -68,6 +69,12 @@ export default class JanitorController {
       this.notes = [];
     });
 
+  }
+
+  goToNote(note: any) {
+    this.$state.go('note', {
+      note: note
+    });
   }
 
 }

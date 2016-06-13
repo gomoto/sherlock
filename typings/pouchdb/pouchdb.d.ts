@@ -65,8 +65,8 @@ interface PouchApi {
 	//
 	// get == select by id
 	//
-	get(id: string, opts: PouchGetOptions, callback: (err: PouchError, res: PouchGetResponse) => void): void;
-	get(id: string, callback: (err: PouchError, res: PouchGetResponse) => void): void;
+	get(id: string, opts?: PouchGetOptions, callback?: (err: PouchError, res: PouchGetResponse) => void): PouchPromise;
+	get(id: string, callback?: (err: PouchError, res?: PouchGetResponse) => void): PouchPromise;
 	allDocs(opts?: PouchAllDocsOptions, callback?: (err: PouchError, res: PouchAllDocsResponse) => void): PouchPromise;
 	allDocs(callback?: (err: PouchError, res: PouchAllDocsResponse) => void): PouchPromise;
 }

@@ -1,3 +1,8 @@
 <button ng-click="$ctrl.deleteAllNotes()">Delete all notes</button>
 <button ng-click="$ctrl.destroyDatabase()">Destroy database</button>
-<pre ng-repeat="note in $ctrl.notes" ng-bind="$ctrl.toJson(note)"></pre>
+<pre
+  ng-repeat="note in $ctrl.notes"
+  ng-bind="$ctrl.toJson(note)"
+  ng-click="$ctrl.goToNote(note)"
+  class="janitor-note">
+</pre>

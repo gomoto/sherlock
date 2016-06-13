@@ -29,15 +29,18 @@ export default class pouchdb {
 
   }
 
+  get(id: string): PouchPromise {
+    // wait for index promise?
+    return this.$q.resolve(this.db.get(id));
+  }
+
   put(doc: any): PouchPromise {
     // wait for index promise?
-
     return this.$q.resolve(this.db.put(doc));
   }
 
   allDocs(options: PouchAllDocsOptions): PouchPromise {
     // wait for index promise?
-
     return this.$q.resolve(this.db.allDocs(options));
   }
 

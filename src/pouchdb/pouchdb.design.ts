@@ -2,13 +2,7 @@
 // emit each tag as key
 // emit title as value
 
-interface NoteSchema {
-  _id: string;
-  _rev: string;
-  title: string;
-  content: string;
-  tags: string[];
-}
+import { INote } from '../note/note.module';
 
 export default {
 
@@ -17,7 +11,7 @@ export default {
   views: {
     tags: {
 
-      map: function (doc: NoteSchema) {
+      map: function (doc: INote) {
         if (doc.tags) {
           if (doc.tags.length === 0) {
             emit(null, {title: doc.title, tags: []});

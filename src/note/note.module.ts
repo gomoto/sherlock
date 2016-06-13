@@ -7,3 +7,13 @@ export default angular
   controller: NoteController
 })
 .name;
+
+interface INote {
+  _id: string;
+  _rev: string;
+  title: string;
+  content: string;
+  tags: string[];
+}
+
+export { INote }
