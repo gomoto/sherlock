@@ -1,1 +1,18 @@
+@import 'scss/index';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  @extend %helvetica;
+  @extend %font-medium;
+  @extend %font-normal;
+  color: #333;
+}
+
+#uiRoot {
+  height: calc(100% - #{$navbar-height});
+}
+
 @import 'src/note/note';
