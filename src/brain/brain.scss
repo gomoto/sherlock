@@ -1,0 +1,37 @@
+brain {
+
+  display: block;
+  height: 100%;
+  white-space: nowrap;
+
+  $height: 24px;
+
+  .level {
+    display: inline-block;
+    height: 100%;
+    width: auto;
+    background: $gray50;
+  }
+
+  .level-tag,
+  .level-title {
+
+    height: $height;
+    line-height: $height;
+    padding: 0 8px;
+    cursor: default;
+
+    &:hover {
+      background: $gray100;
+    }
+
+  }
+
+  .level-divider {
+    display: block;
+    height: 1px;
+    background: $gray300;
+    margin: 8px 0;
+  }
+
+}

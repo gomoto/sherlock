@@ -1,0 +1,12 @@
+<div class="level" ng-repeat="level in $ctrl.levels">
+  <div class="level-tag"
+    ng-repeat="tag in level.tags"
+    ng-bind="tag.tag">
+  </div>
+  <div class="level-divider"></div>
+  <div class="level-title"
+    ng-repeat="title in level.titles"
+    ng-bind="title.title"
+    ng-mouseenter="$ctrl.printNote(title)">
+  </div>
+</div>
