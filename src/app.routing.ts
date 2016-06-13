@@ -15,8 +15,11 @@ export default [
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-    .state('note', {
+    .state('main', {
       url: '/',
+      template: '<main></main>'
+    })
+    .state('note', {
       template: '<note></note>'
     });
 

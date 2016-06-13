@@ -1,0 +1,15 @@
+navbar {
+
+  display: block;
+  background: $gray100;
+  border-bottom: 1px solid $gray300;
+  line-height: $navbar-height;
+  padding: 0 8px;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+}
