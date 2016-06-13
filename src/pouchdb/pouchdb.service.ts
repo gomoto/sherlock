@@ -5,10 +5,11 @@ export default class pouchdb {
 
   private db: PouchDB;
 
-  static $inject = ['$log'];
+  static $inject = ['$log','$q'];
 
   constructor(
-    private $log: ng.ILogService
+    private $log: ng.ILogService,
+    private $q: ng.IQService
   ) {
 
     this.db = new PouchDB('sherlock');
@@ -28,10 +29,10 @@ export default class pouchdb {
 
   }
 
-  put(doc: any) {
+  put(doc: any): PouchPromise {
     // wait for index promise?
 
-    this.db.put(doc).then((x:any) => { this.$log.debug(x) });
+    return this.$q.resolve(this.db.put(doc));
   }
 
   allDocs(options: PouchAllDocsOptions): PouchPromise {
@@ -39,15 +40,15 @@ export default class pouchdb {
 
     options.startkey = 'note';
     options.endkey = 'note\ufff0';
-    return this.db.allDocs(options);
+    return this.$q.resolve(this.db.allDocs(options));
   }
 
   bulkDocs(docs: any[]) {
-    return this.db.bulkDocs(docs);
+    return this.$q.resolve(this.db.bulkDocs(docs));
   }
 
   destroy(): PouchPromise {
-    return this.db.destroy();
+    return this.$q.resolve(this.db.destroy());
   }
 
 }

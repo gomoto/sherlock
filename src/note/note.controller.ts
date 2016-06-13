@@ -20,6 +20,7 @@ export default class NoteController {
       content: this.content,
       tags: this.tags.split(',')
     })
+    .then(this.$log.debug);
   }
 
 }
