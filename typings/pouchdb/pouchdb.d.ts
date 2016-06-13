@@ -81,14 +81,21 @@ interface PouchUpdateResponse {
 	rev: string;
 }
 
+interface PouchUpdateError {
+	status: number;
+	name: string;
+	message: string;
+	error: boolean;
+}
+
 interface PouchApi {
 	bulkDocs(req: any[], opts?: PouchUpdateOptions, callback?: (err: PouchError, res?: PouchUpdateResponse[]) => void): PouchPromise;
 	bulkDocs(req: any[], callback?: (err: PouchError, res?: PouchUpdateResponse[]) => void): PouchPromise;
 	//
 	// post == insert (doc does not contain an _id)
 	//
-	post(doc: any, opts?: PouchUpdateOptions, callback?: (err: PouchError, res: PouchUpdateResponse) => void): void;
-	post(doc: any, callback?: (err: PouchError, res: PouchUpdateResponse) => void): void;
+	post(doc: any, opts?: PouchUpdateOptions, callback?: (err: PouchError, res: PouchUpdateResponse) => void): PouchPromise;
+	post(doc: any, callback?: (err: PouchError, res: PouchUpdateResponse) => void): PouchPromise;
 	//
 	// put == update (doc DOES contain an _id)
 	//
@@ -97,8 +104,8 @@ interface PouchApi {
 	//
 	// remove == delete
 	//
-	remove(doc: any, opts?: PouchUpdateOptions, callback?: (err: PouchError, res: PouchUpdateResponse) => void): void;
-	remove(doc: any, callback?: (err: PouchError, res: PouchUpdateResponse) => void): void;
+	remove(doc: any, opts?: PouchUpdateOptions, callback?: (err: PouchError, res: PouchUpdateResponse) => void): PouchPromise;
+	remove(doc: any, callback?: (err: PouchError, res: PouchUpdateResponse) => void): PouchPromise;
 }
 
 interface PouchFilter {

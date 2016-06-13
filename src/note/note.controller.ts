@@ -8,50 +8,83 @@ export default class NoteController {
   content: string;
   tags: string;
 
-  static $inject = ['$log','pouchdb','$stateParams'];
+  static $inject = ['$log','pouchdb','$stateParams','$window'];
 
   constructor(
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
-    private $stateParams: IStateParams
+    private $stateParams: IStateParams,
+    private $window: ng.IWindowService
   ) {
-    if ($stateParams.note) {
-      this.getNote($stateParams.note._id);
-    }
+    this.setNoteState();
   }
 
-  getNote(noteId: string) {
-    this.pouchdb.get(noteId)
-    .then((note: any) => {
-      this.title = note.title;
-      this.content = note.content;
-      this.tags = note.tags.join(',');
-      return note;
-    })
-    .then(this.$log.info)
-    .catch(this.$log.error);
+  setNoteState() {
+    if (this.$stateParams.note) {
+      this.title = this.$stateParams.note.title;
+      this.content = this.$stateParams.note.content;
+      this.tags = this.$stateParams.note.tags.join(',');
+    }
+    else {
+      this.title = '';
+      this.content = '';
+      this.tags = '';
+    }
   }
 
   putNote() {
+
     let noteId: string;
-    let rev: string;
+
     if (this.$stateParams.note) {
       noteId = this.$stateParams.note._id;
-      rev = this.$stateParams.note._rev;
     }
-    else {
-      noteId = this.createNoteId();
-    }
+
     let note: INote = {
-      _id: noteId,
-      _rev: rev,
+      _id: noteId || this.createNoteId(),
       title: this.title,
       content: this.content,
       tags: this.tags.split(',')
     };
+
+    if (this.$stateParams.note) {
+      note._rev = this.$stateParams.note._rev;
+    }
+
     this.pouchdb.put(note)
-    .then(this.$log.info)
-    .catch(this.$log.error);
+    .then((response: PouchUpdateResponse) => {
+      this.$log.info(response);
+      note._rev = response.rev;
+      this.$stateParams.note = note;//!
+    })
+    .catch((error: PouchUpdateError) => {
+      this.$log.error('put note error', error);
+    });
+
+  }
+
+  deleteNote() {
+
+    if (!this.$stateParams.note) {
+      return;
+    }
+
+    if (!this.$window.confirm('Really delete note?')) {
+      return;
+    }
+
+    this.$stateParams.note._deleted = true;
+
+    this.pouchdb.put(this.$stateParams.note)
+    .then((response: PouchUpdateResponse) => {
+      this.$log.info(response);
+      this.$stateParams.note = null;//!
+      this.setNoteState();
+    })
+    .catch((error: PouchUpdateError) => {
+      this.$log.error('del note error', error);
+    });
+
   }
 
   private createNoteId(): string {
