@@ -18,6 +18,8 @@
   "files": [
     "src/app.routing.ts",
     "src/app.ts",
+    "src/janitor/janitor.controller.ts",
+    "src/janitor/janitor.module.ts",
     "src/navbar/navbar.module.ts",
     "src/note/note.controller.ts",
     "src/note/note.module.ts",

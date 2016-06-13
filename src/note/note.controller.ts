@@ -15,11 +15,12 @@ export default class NoteController {
 
   submitNote() {
     this.pouchdb.put({
-      _id: new Date().getTime().toString(),
+      _id: 'note' + new Date().getTime().toString(),
       title: this.title,
       content: this.content,
       tags: this.tags.split(',')
     })
+    .then(this.$log.debug);
   }
 
 }
