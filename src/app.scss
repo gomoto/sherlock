@@ -19,5 +19,6 @@ navbar {
   height: calc(100% - #{$navbar-height});
 }
 
+@import 'src/janitor/janitor';
 @import 'src/navbar/navbar';
 @import 'src/note/note';
