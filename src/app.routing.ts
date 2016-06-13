@@ -19,6 +19,9 @@ export default [
       url: '/',
       template: '<main></main>'
     })
+    .state('janitor', {
+      template: '<janitor></janitor>'
+    })
     .state('note', {
       template: '<note></note>'
     });

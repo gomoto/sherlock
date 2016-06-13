@@ -34,4 +34,20 @@ export default class pouchdb {
     this.db.put(doc).then((x:any) => { this.$log.debug(x) });
   }
 
+  allDocs(options: PouchAllDocsOptions): PouchPromise {
+    // wait for index promise?
+
+    options.startkey = 'note';
+    options.endkey = 'note\ufff0';
+    return this.db.allDocs(options);
+  }
+
+  bulkDocs(docs: any[]) {
+    return this.db.bulkDocs(docs);
+  }
+
+  destroy(): PouchPromise {
+    return this.db.destroy();
+  }
+
 }
