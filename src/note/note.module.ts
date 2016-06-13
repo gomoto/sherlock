@@ -10,7 +10,8 @@ export default angular
 
 interface INote {
   _id: string;
-  _rev: string;
+  _rev?: string;
+  _deleted?: boolean;
   title: string;
   content: string;
   tags: string[];

@@ -17,4 +17,9 @@
     value="Submit note"
     class="note-submit"
     title="Submit this note">
+  <button type="button"
+    ng-if="$ctrl.$stateParams.note"
+    ng-click="$ctrl.deleteNote()">
+    Delete
+  </button>
 </form>
