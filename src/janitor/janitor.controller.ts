@@ -22,9 +22,9 @@ export default class JanitorController {
 
   getAllNotes() {
 
-    this.pouchdb.allDocs({include_docs: true})
+    this.pouchdb.allNotes()
     .then((response: any) => {
-      this.$log.debug('allDocs response',response);
+      this.$log.debug('allNotes response', response);
       this.notes = response.rows.map((row: any) => {
         return row.doc;
       });

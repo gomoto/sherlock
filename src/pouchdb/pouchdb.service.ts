@@ -38,8 +38,17 @@ export default class pouchdb {
   allDocs(options: PouchAllDocsOptions): PouchPromise {
     // wait for index promise?
 
-    options.startkey = 'note';
-    options.endkey = 'note\ufff0';
+    return this.$q.resolve(this.db.allDocs(options));
+  }
+
+  allNotes(): PouchPromise {
+    // wait for index promise?
+
+    let options = {
+      startkey: 'note',
+      endkey: 'note\ufff0',
+      include_docs: true
+    };
     return this.$q.resolve(this.db.allDocs(options));
   }
 
