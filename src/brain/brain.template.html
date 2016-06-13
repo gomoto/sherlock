@@ -7,6 +7,11 @@
   <div class="level-title"
     ng-repeat="title in level.titles"
     ng-bind="title.title"
-    ng-mouseenter="$ctrl.printNote(title)">
+    ng-mouseenter="$ctrl.showNote(title._id)"
+    ng-mouseleave="$ctrl.closeNote()">
   </div>
 </div>
+<section class="note-preview" ng-if="$ctrl.note">
+  <header ng-bind="$ctrl.note.title" class="note-title"></header>
+  <textarea readonly ng-bind="$ctrl.note.content" class="note-content"></textarea>
+</section>

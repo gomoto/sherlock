@@ -21,6 +21,7 @@ interface Level {
 export default class BrainController {
 
   levels: Level[];
+  note: INote;
 
   static $inject = ['$log','pouchdb','$window'];
 
@@ -29,6 +30,8 @@ export default class BrainController {
     private pouchdb: pouchdbService,
     private $window: ng.IWindowService
   ) {
+
+    this.note = null;
 
     // Build level 0
 
@@ -61,7 +64,7 @@ export default class BrainController {
     .catch(this.$log.error);
 
     // All notes with no tags
-    
+
     this.pouchdb.query('tags', {
       reduce: false,
       key: null
@@ -77,6 +80,18 @@ export default class BrainController {
     })
     .catch(this.$log.error);
 
+  }
+
+  showNote(noteId: string) {
+    this.pouchdb.get(noteId)
+    .then((note: INote) => {
+      this.note = note;
+    })
+    .catch(this.$log.error);
+  }
+
+  closeNote() {
+    this.note = null;
   }
 
   printNote(note: any) {

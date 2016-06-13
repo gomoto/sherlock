@@ -6,9 +6,15 @@ brain {
 
   $height: 24px;
 
-  .level {
+  %panel {
     display: inline-block;
+    vertical-align: top;
     height: 100%;
+    border-right: 1px solid $gray200;
+  }
+
+  .level {
+    @extend %panel;
     width: auto;
     background: $gray50;
   }
@@ -30,8 +36,34 @@ brain {
   .level-divider {
     display: block;
     height: 1px;
-    background: $gray300;
+    background: $gray200;
     margin: 8px 0;
+  }
+
+  .note-preview {
+    @extend %panel;
+    width: 300px;
+    background: $gray50;
+  }
+
+  .note-title {
+    height: $height;
+    line-height: $height;
+    padding: 0 8px;
+  }
+
+  .note-content {
+
+    display: block;
+    resize: none;
+    width: 100%;
+    height: calc(100% - #{$height});
+
+    border: 0;
+    outline: 0;
+    padding: $height / 2 8px;
+    background: transparent;
+
   }
 
 }
