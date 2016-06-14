@@ -9,8 +9,6 @@
     "bundle:clean": "trash $npm_package_bundle",
     "minify": "uglifyjs $npm_package_bundle --output $npm_package_bundlemin --source-map $npm_package_bundlemap --prefix relative --mangle --compress",
     "minify:clean": "trash $npm_package_bundlemin && trash $npm_package_bundlemap",
-    "build": "npm run ts && npm run bundle && npm run minify && npm run style",
-    "build:clean": "npm run ts:clean && trash build",
     "style:scss": "node-sass src/app.scss $npm_package_css",
     "style:autoprefix": "postcss --use autoprefixer --replace --autoprefixer.browsers 'last 2 versions' $npm_package_css",
     "style": "npm run style:scss && npm run style:autoprefix",
@@ -19,6 +17,8 @@
     "html:minify": "html-minifier --collapse-whitespace --process-scripts text/ng-template index.html > index.tmp.html && mv index.tmp.html index.html",
     "html": "npm run html:inject && npm run html:minify",
     "html:clean": "trash index.html",
+    "build": "npm run ts && npm run bundle && npm run minify && npm run style && npm run html",
+    "build:clean": "npm run ts:clean && trash build && npm run html:clean",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server -a 0.0.0.0 -p 9000"
   },
