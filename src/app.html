@@ -4,14 +4,18 @@
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
-  <base href="/">
   <title>Sherlock</title>
-  <link rel="stylesheet" href="/build/app.css">
+  <base href="/">
+  <!--inject:css-->
+  <link rel="stylesheet" href="{path}">
+  <!--endinject-->
 </head>
 <body>
   <navbar></navbar>
   <div id="uiRoot" ui-view></div>
-  <script src="/build/bundle.min.js"></script>
+  <!--inject:js-->
+  <script src="{path}"></script>
+  <!--endinject-->
   <!--inject:template-->
   <script type="text/ng-template" id="{path}">{content}</script>
   <!--endinject-->
