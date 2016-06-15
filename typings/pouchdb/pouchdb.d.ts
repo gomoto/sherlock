@@ -121,8 +121,18 @@ interface PouchQueryOptions {
 	reduce?: boolean;
 }
 
+// If query reduces, only field will be rows.
 interface PouchQueryResponse {
+	offset?: number;
 	rows: any[];
+	total_rows?: number;
+}
+
+// If query reduces, there will not be an id field.
+interface PouchQueryRow {
+	id?: string;
+	key: string;
+	value: any;
 }
 
 interface PouchApi {

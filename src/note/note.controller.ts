@@ -35,16 +35,23 @@ export default class NoteController {
   putNote() {
 
     let noteId: string;
-
     if (this.$stateParams.note) {
       noteId = this.$stateParams.note._id;
+    }
+
+    let tags: string[];
+    if (this.tags.length === 0) {
+      tags = [];
+    }
+    else {
+      tags = this.tags.split(',');
     }
 
     let note: INote = {
       _id: noteId || this.createNoteId(),
       title: this.title,
       content: this.content,
-      tags: this.tags.split(',')
+      tags: tags
     };
 
     if (this.$stateParams.note) {

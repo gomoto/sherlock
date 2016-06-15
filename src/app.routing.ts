@@ -17,9 +17,9 @@ export default [
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-    .state('main', {
+    .state('brain', {
       url: '/',
-      template: '<main></main>'
+      template: '<brain></brain>'
     })
     .state('janitor', {
       template: '<janitor></janitor>'

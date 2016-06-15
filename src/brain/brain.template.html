@@ -1,0 +1,17 @@
+<div class="level" ng-repeat="level in $ctrl.levels">
+  <div class="level-tag"
+    ng-repeat="tag in level.tags"
+    ng-bind="tag.tag">
+  </div>
+  <div class="level-divider"></div>
+  <div class="level-title"
+    ng-repeat="title in level.titles"
+    ng-bind="title.title"
+    ng-mouseenter="$ctrl.openNote(title._id)"
+    ng-mouseover="$event.stopPropagation()">
+  </div>
+</div>
+<section class="note-preview" ng-if="$ctrl.note" ng-mouseover="$event.stopPropagation()">
+  <header ng-bind="$ctrl.note.title" class="note-title"></header>
+  <textarea readonly ng-bind="$ctrl.note.content" class="note-content"></textarea>
+</section>

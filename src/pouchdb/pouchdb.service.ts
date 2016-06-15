@@ -59,6 +59,10 @@ export default class pouchdb {
     return this.$q.resolve(this.db.bulkDocs(docs));
   }
 
+  query(viewName: string, options: any) {
+    return this.$q.resolve(this.db.query(viewName, options));
+  }
+
   destroy(): PouchPromise {
     return this.$q.resolve(this.db.destroy());
   }

@@ -18,6 +18,8 @@
   "files": [
     "src/app.routing.ts",
     "src/app.ts",
+    "src/brain/brain.controller.ts",
+    "src/brain/brain.module.ts",
     "src/janitor/janitor.controller.ts",
     "src/janitor/janitor.module.ts",
     "src/navbar/navbar.module.ts",

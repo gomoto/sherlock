@@ -6,3 +6,5 @@ src/**/*.js
 
 typings/*
 !typings/pouchdb
+
+/index.html
