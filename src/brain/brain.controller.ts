@@ -23,11 +23,13 @@ export default class BrainController {
   levels: Level[];
   note: INote;
 
-  static $inject = ['$log','pouchdb','$window'];
+  static $inject = ['$log','pouchdb','$rootElement','$scope','$window'];
 
   constructor(
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
+    private $rootElement: ng.IRootElementService,
+    private $scope: ng.IScope,
     private $window: ng.IWindowService
   ) {
 
@@ -82,20 +84,25 @@ export default class BrainController {
 
   }
 
-  showNote(noteId: string) {
+  openNote(noteId: string) {
+    this.$log.debug('opening note');
+    this.$rootElement.off('mouseover');
     this.pouchdb.get(noteId)
     .then((note: INote) => {
       this.note = note;
+      this.$rootElement.on('mouseover', () => {
+        this.$scope.$apply(() => {
+          this.$rootElement.off('mouseover');
+          this.closeNote();
+        });
+      });
     })
     .catch(this.$log.error);
   }
 
   closeNote() {
+    this.$log.debug('closing note');
     this.note = null;
-  }
-
-  printNote(note: any) {
-    this.$log.debug(note);
   }
 
 }
