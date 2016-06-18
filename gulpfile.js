@@ -115,3 +115,5 @@ gulp.task('ts:watch', function() {
 gulp.task('build', ['html', 'sass', 'ts']);
 
 gulp.task('clean', ['html:clean','sass:clean','ts:clean']);
+
+gulp.task('watch', ['html:watch','sass:watch','ts:watch']);

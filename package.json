@@ -8,6 +8,7 @@
     "html": "gulp html",
     "build": "gulp build",
     "clean": "gulp clean",
+    "watch": "gulp watch",
     "minify": "uglifyjs $npm_package_bundle --output $npm_package_bundlemin --source-map $npm_package_bundlemap --prefix relative --mangle --compress",
     "minify:clean": "trash $npm_package_bundlemin && trash $npm_package_bundlemap",
     "test": "echo \"Error: no test specified\" && exit 1",
