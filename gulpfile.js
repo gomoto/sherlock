@@ -19,6 +19,10 @@ var logError = (error) => {
   console.error(error.toString());
 };
 
+var logWatchEvent = (event) => {
+  console.log(event.path + ' ' + event.type);
+};
+
 var minifyHtml = () => {
   var content = fs.readFileSync(config.dist.html, {encoding: 'utf-8'});
   var minified = minify(content, {
@@ -40,6 +44,14 @@ gulp.task('html:clean', function() {
   trash([config.dist.html]);
 });
 
+gulp.task('html:watch', function() {
+  return gulp.watch(config.src.html, ['html'])
+  .on('change', logWatchEvent)
+  .on('add', logWatchEvent)
+  .on('delete', logWatchEvent)
+  .on('rename', logWatchEvent);
+});
+
 gulp.task('sass', function() {
   return gulp
   .src(config.entry.scss)
@@ -55,11 +67,11 @@ gulp.task('sass:clean', function() {
 });
 
 gulp.task('sass:watch', function() {
-  return gulp
-  .watch(config.src.scss, ['sass'])
-  .on('change', function(event) {
-    console.log('File ' + event.path + ' ' + event.type);
-  });
+  return gulp.watch(config.src.scss, ['sass'])
+  .on('change', logWatchEvent)
+  .on('add', logWatchEvent)
+  .on('delete', logWatchEvent)
+  .on('rename', logWatchEvent);
 });
 
 gulp.task('ts', function() {
