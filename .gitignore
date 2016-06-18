@@ -1,4 +1,3 @@
-build/
 node_modules/
 
 src/**/*.css
@@ -8,3 +7,5 @@ typings/*
 !typings/pouchdb
 
 /index.html
+/app.css
+/app.js

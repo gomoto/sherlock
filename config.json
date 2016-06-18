@@ -1,9 +1,9 @@
 {
-  "bundle": "build/bundle.js",
-  "bundlemin": "build/bundle.min.js",
-  "bundlemap": "build/bundle.map",
-  "css": "build/app.css",
-  "html": "index.html",
+  "dist": {
+    "html": "index.html",
+    "css": "app.css",
+    "js": "app.js"
+  },
   "entry": {
     "html": "src/app.html",
     "scss": "src/app.scss",
@@ -15,6 +15,11 @@
     "ts": "src/**/*.ts"
   },
   "options": {
+    "browserify": {
+      "debug": true
+    },
+    "tsify": {
+    },
     "sass": {
       "outputStyle": "compressed"
     },
