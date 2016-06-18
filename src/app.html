@@ -13,9 +13,21 @@
 <body>
   <navbar></navbar>
   <div id="uiRoot" ui-view></div>
+
+  <!--inject:angular-->
+  <script src="{path angular}"></script>
+  <!--endinject-->
+  <!--inject:angular-ui-router-->
+  <script src="{path uiRouter}"></script>
+  <!--endinject-->
+  <!--inject:pouchdb-->
+  <script src="{path pouchdb}"></script>
+  <!--endinject-->
+
   <!--inject:js-->
   <script src="{path}"></script>
   <!--endinject-->
+
   <!--inject:template-->
   <script type="text/ng-template" id="{path}">{content}</script>
   <!--endinject-->

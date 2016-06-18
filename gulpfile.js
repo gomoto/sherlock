@@ -34,9 +34,22 @@ var minifyHtml = () => {
 };
 
 gulp.task('html', function() {
+  var vendor = (process.env.NODE_ENV === 'production') ? config.vendor.production : config.vendor.default;
+
+  var options = {
+    transforms: {
+      angular: () => { return vendor.angular },
+      uiRouter: () => { return vendor['angular-ui-router'] },
+      pouchdb: () => { return vendor.pouchdb }
+    }
+  };
+
   inject(config.entry.html)
-  .replace('css', config.dist.css)
+  .replace('angular', config.entry.html, options)
+  .replace('angular-ui-router', config.entry.html, options)
+  .replace('pouchdb', config.entry.html, options)
   .replace('js', config.dist.js)
+  .replace('css', config.dist.css)
   .replace('template', config.src.html)
   .write(config.dist.html, minifyHtml);
 });
@@ -46,7 +59,7 @@ gulp.task('html:clean', function() {
 });
 
 gulp.task('html:watch', function() {
-  return gulp.watch(config.src.html, ['html'])
+  return gulp.watch([config.src.html, config.entry.html], ['html'])
   .on('change', logWatchEvent)
   .on('add', logWatchEvent)
   .on('delete', logWatchEvent)
