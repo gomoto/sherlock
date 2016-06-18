@@ -2,9 +2,10 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserify = require('browserify');
 var fs = require('fs');
 var gulp = require('gulp');
+var htmlminifier = require('html-minifier').minify;
 var inject = require('html-injector');
 var log = require('gulp-util').log;
-var minify = require('html-minifier').minify;
+var minifyify = require('minifyify');
 var path = require('path');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
@@ -26,7 +27,7 @@ var logWatchEvent = (event) => {
 
 var minifyHtml = () => {
   var content = fs.readFileSync(config.dist.html, {encoding: 'utf-8'});
-  var minified = minify(content, {
+  var minified = htmlminifier(content, {
     collapseWhitespace: true,
     processScripts: ['text/ng-template']
   });
@@ -92,13 +93,14 @@ gulp.task('ts', function() {
   return browserify(config.options.browserify)
   .add(config.entry.ts)
   .plugin(tsify, config.options.tsify)
+  .plugin(minifyify, config.options.minifyify)
   .bundle()
   .on('error', logError)
   .pipe(fs.createWriteStream(config.dist.js));
 });
 
 gulp.task('ts:clean', function() {
-  trash([config.dist.js]);
+  trash([config.dist.js, config.options.minifyify.output]);
 });
 
 var watchifyOptions = Object.assign({
@@ -112,6 +114,7 @@ gulp.task('ts:watch', function() {
   var b = browserify(watchifyOptions)
   .add(config.entry.ts)
   .plugin(tsify, config.options.tsify)
+  .plugin(minifyify, config.options.minifyify)
   .on('update', bundle)
   .on('update', console.log)
   .on('log', console.log);

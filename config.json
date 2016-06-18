@@ -20,6 +20,10 @@
     },
     "tsify": {
     },
+    "minifyify": {
+      "map": "app.js.map",
+      "output": "app.js.map"
+    },
     "sass": {
       "outputStyle": "compressed"
     },
