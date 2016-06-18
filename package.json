@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "postinstall": "typings install",
-    "ts": "gulp ts",
-    "style": "gulp sass",
-    "html": "gulp html",
     "build": "gulp build",
     "clean": "gulp clean",
     "watch": "gulp watch",
