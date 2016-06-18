@@ -4,6 +4,19 @@
   "bundlemap": "build/bundle.map",
   "css": "build/app.css",
   "html": "index.html",
+  "entry": {
+    "html": "src/app.html",
+    "scss": "src/app.scss",
+    "ts": "src/app.ts"
+  },
+  "options": {
+    "sass": {
+      "outputStyle": "compressed"
+    },
+    "autoprefixer": {
+      "browsers": ["last 2 versions"]
+    }
+  },
   "builds": {
     "local": {
       "angular": "node_modules/angular/angular.js",
