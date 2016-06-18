@@ -10,6 +10,7 @@ var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var trash = require('trash');
 var tsify = require('tsify');
+var uglify = require('uglify-js');
 var watchify = require('watchify');
 
 
@@ -75,7 +76,7 @@ gulp.task('sass:watch', function() {
 });
 
 gulp.task('ts', function() {
-  browserify(config.options.browserify)
+  return browserify(config.options.browserify)
   .add(config.entry.ts)
   .plugin(tsify, config.options.tsify)
   .bundle()
@@ -112,8 +113,20 @@ gulp.task('ts:watch', function() {
 
 });
 
-gulp.task('build', ['html', 'sass', 'ts']);
+gulp.task('build', ['html', 'sass', 'ts', 'minify']);
 
 gulp.task('clean', ['html:clean','sass:clean','ts:clean']);
 
 gulp.task('watch', ['html:watch','sass:watch','ts:watch']);
+
+// Only minify if NODE_ENV=production
+gulp.task('minify', ['ts'], function() {
+  if (process.env.NODE_ENV !== 'production') {
+    return;
+  }
+  var output = uglify.minify(config.dist.js, {
+    mangle: true,
+    compress: {}
+  });
+  fs.writeFileSync(config.dist.js, output.code);
+});
