@@ -10,9 +10,14 @@ var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var trash = require('trash');
 var tsify = require('tsify');
+var watchify = require('watchify');
 
 
 var config = require('./config.json');
+
+var logError = (error) => {
+  console.error(error.toString());
+};
 
 var minifyHtml = () => {
   var content = fs.readFileSync(config.dist.html, {encoding: 'utf-8'});
@@ -62,12 +67,35 @@ gulp.task('ts', function() {
   .add(config.entry.ts)
   .plugin(tsify, config.options.tsify)
   .bundle()
-  .on('error', (error) => {
-    console.error(error.toString());
-  })
+  .on('error', logError)
   .pipe(fs.createWriteStream(config.dist.js));
 });
 
 gulp.task('ts:clean', function() {
   trash([config.dist.js]);
+});
+
+var watchifyOptions = Object.assign({
+  cache: {},
+  packageCache: {},
+  plugin: [watchify]
+}, config.options.browserify);
+
+gulp.task('ts:watch', function() {
+
+  var b = browserify(watchifyOptions)
+  .add(config.entry.ts)
+  .plugin(tsify, config.options.tsify)
+  .on('update', bundle)
+  .on('update', console.log)
+  .on('log', console.log);
+
+  bundle();
+
+  function bundle() {
+    b.bundle()
+    .on('error', logError)
+    .pipe(fs.createWriteStream(config.dist.js));
+  }
+
 });
