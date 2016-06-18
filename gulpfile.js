@@ -59,7 +59,7 @@ gulp.task('html:clean', function() {
   trash([config.dist.html]);
 });
 
-gulp.task('html:watch', function() {
+gulp.task('html:watch', ['html'], function() {
   return gulp.watch([config.src.html, config.entry.html], ['html'])
   .on('change', logWatchEvent)
   .on('add', logWatchEvent)
@@ -81,7 +81,7 @@ gulp.task('sass:clean', function() {
   trash([config.dist.css])
 });
 
-gulp.task('sass:watch', function() {
+gulp.task('sass:watch', ['sass'], function() {
   return gulp.watch(config.src.scss, ['sass'])
   .on('change', logWatchEvent)
   .on('add', logWatchEvent)
