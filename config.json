@@ -1,0 +1,19 @@
+{
+  "bundle": "build/bundle.js",
+  "bundlemin": "build/bundle.min.js",
+  "bundlemap": "build/bundle.map",
+  "css": "build/app.css",
+  "html": "index.html",
+  "builds": {
+    "local": {
+      "angular": "node_modules/angular/angular.js",
+      "angular-ui-router": "node_modules/angular-ui-router/release/angular-ui-router.js",
+      "pouchdb": "node_modules/pouchdb/dist/pouchdb.js"
+    },
+    "github": {
+      "angular": "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.js",
+      "angular-ui-router": "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js",
+      "pouchdb": "https://cdnjs.cloudflare.com/ajax/libs/pouchdb/5.4.1/pouchdb.js"
+    }
+  }
+}
