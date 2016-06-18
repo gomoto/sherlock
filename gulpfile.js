@@ -36,11 +36,19 @@ gulp.task('sass', function() {
   .src(config.entry.scss)
   .pipe(sourcemaps.init())
   .pipe(sass(config.options.sass).on('error', sass.logError))
-  .pipe(sourcemaps.write())
   .pipe(autoprefixer(config.options.autoprefixer))
+  .pipe(sourcemaps.write())
   .pipe(gulp.dest('build'));
 });
 
 gulp.task('sass:clean', function() {
   trash([config.css])
+});
+
+gulp.task('sass:watch', function() {
+  return gulp
+  .watch(config.src.scss, ['sass'])
+  .on('change', function(event) {
+    console.log('File ' + event.path + ' ' + event.type);
+  });
 });

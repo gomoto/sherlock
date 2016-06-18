@@ -9,6 +9,11 @@
     "scss": "src/app.scss",
     "ts": "src/app.ts"
   },
+  "src": {
+    "html": "src/**/*.html",
+    "scss": "src/**/*.scss",
+    "ts": "src/**/*.ts"
+  },
   "options": {
     "sass": {
       "outputStyle": "compressed"
