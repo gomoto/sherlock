@@ -1,4 +1,3 @@
-import * as PouchDB from 'pouchdb';
 import design from './pouchdb.design';
 
 export default class pouchdb {
