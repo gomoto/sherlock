@@ -2,20 +2,19 @@ import pouchdbService from '../pouchdb/pouchdb.service';
 import { INote } from '../note/note.module';
 
 interface LevelTag {
-  _id: string;
-  title: string;
   tag: string;
-  tags: string[];
+  note: LevelNote;
 }
 
-interface LevelTitle {
+interface LevelNote {
   _id: string;
   title: string;
+  tags: string[];
 }
 
 interface Level {
   tags: LevelTag[];
-  titles: LevelTitle[]
+  notes: LevelNote[];
 }
 
 export default class BrainController {
@@ -39,7 +38,7 @@ export default class BrainController {
 
     this.levels = [{
       tags: null,
-      titles: null
+      notes: null
     }];
 
     // All tags
@@ -56,16 +55,14 @@ export default class BrainController {
       })
       .map((row: PouchQueryRow) => {
         return <LevelTag> {
-          _id: null,
           tag: row.key,
-          title: null,
-          tags: null
+          note: null
         };
       });
     })
     .catch(this.$log.error);
 
-    // All notes with no tags
+    // All notes with zero tags
 
     this.pouchdb.query('tags', {
       reduce: false,
@@ -73,10 +70,11 @@ export default class BrainController {
     })
     .then((response: any) => {
       this.$log.info('note query response', response);
-      this.levels[0].titles = response.rows.map((row: any) => {
-        return <LevelTitle> {
+      this.levels[0].notes = response.rows.map((row: any) => {
+        return <LevelNote> {
           _id: row.id,
-          title: row.value.title
+          title: row.value.title,
+          tags: []
         };
       });
     })

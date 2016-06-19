@@ -1,13 +1,13 @@
 <div class="level" ng-repeat="level in $ctrl.levels">
   <div class="level-tag"
-    ng-repeat="tag in level.tags"
-    ng-bind="tag.tag">
+    ng-repeat="levelTag in level.tags"
+    ng-bind="levelTag.tag">
   </div>
   <div class="level-divider"></div>
-  <div class="level-title"
-    ng-repeat="title in level.titles"
-    ng-bind="title.title"
-    ng-mouseenter="$ctrl.openNote(title._id)"
+  <div class="level-note"
+    ng-repeat="levelNote in level.notes"
+    ng-bind="levelNote.title"
+    ng-mouseenter="$ctrl.openNote(levelNote._id)"
     ng-mouseover="$event.stopPropagation()">
   </div>
 </div>
