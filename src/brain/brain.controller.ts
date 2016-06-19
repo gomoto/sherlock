@@ -85,17 +85,15 @@ export default class BrainController {
   openNote(noteId: string) {
     this.$log.debug('opening note');
     this.$rootElement.off('mouseover');
-    this.pouchdb.get(noteId)
-    .then((note: INote) => {
-      this.note = note;
-      this.$rootElement.on('mouseover', () => {
-        this.$scope.$apply(() => {
-          this.$rootElement.off('mouseover');
-          this.closeNote();
-        });
+
+    this.note = this.pouchdb.getNote(noteId);
+
+    this.$rootElement.on('mouseover', () => {
+      this.$scope.$apply(() => {
+        this.$rootElement.off('mouseover');
+        this.closeNote();
       });
-    })
-    .catch(this.$log.error);
+    });
   }
 
   closeNote() {

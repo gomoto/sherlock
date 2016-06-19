@@ -1,4 +1,5 @@
 import design from './pouchdb.design';
+import { INote } from '../note/note.module';
 
 export default class pouchdb {
 
@@ -64,6 +65,21 @@ export default class pouchdb {
 
   destroy(): PouchPromise {
     return this.$q.resolve(this.db.destroy());
+  }
+
+  getNote(noteId: string): INote {
+    // Trust that this will eventually be a Note
+    var note = <INote> {
+      _id: noteId
+    };
+    this.$q.resolve(this.db.get(noteId))
+    .then((response: INote) => {
+      note.title = response.title;
+      note.content = response.content;
+      note.tags = response.tags;
+    })
+    .catch(this.$log.error);
+    return note;
   }
 
 }
