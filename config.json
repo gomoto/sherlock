@@ -16,6 +16,8 @@
   },
   "options": {
     "browserify": {
+      "cache": {},
+      "packageCache": {},
       "debug": true
     },
     "tsify": {

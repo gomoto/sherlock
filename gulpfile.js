@@ -84,44 +84,36 @@ gulp.task('sass:watch', ['sass'], function() {
   .on('rename', logWatchEvent);
 });
 
-gulp.task('ts', function() {
-  return browserify(config.options.browserify)
-  .add(config.entry.ts)
-  .plugin(tsify, config.options.tsify)
-  .transform(uglifyify)
-  .bundle()
+var browserifyCore = function(watch) {
+  var b = browserify(config.options.browserify);
+  b.add(config.entry.ts);
+  if (watch) {
+    b.plugin(watchify);
+    b.on('update', bundle.bind(null, b));
+    b.on('update', console.log);
+    b.on('log', console.log);
+  }
+  b.plugin(tsify, config.options.tsify);
+  b.transform(uglifyify);
+  return b;
+};
+
+var bundle = function(b) {
+  b.bundle()
   .on('error', logError)
   .pipe(fs.createWriteStream(config.dist.js));
+};
+
+gulp.task('ts', function() {
+  bundle(browserifyCore());
 });
 
 gulp.task('ts:clean', function() {
   trash([config.dist.js]);
 });
 
-var watchifyOptions = Object.assign({
-  cache: {},
-  packageCache: {},
-  plugin: [watchify]
-}, config.options.browserify);
-
 gulp.task('ts:watch', function() {
-
-  var b = browserify(watchifyOptions)
-  .add(config.entry.ts)
-  .plugin(tsify, config.options.tsify)
-  .transform(uglifyify)
-  .on('update', bundle)
-  .on('update', console.log)
-  .on('log', console.log);
-
-  bundle();
-
-  function bundle() {
-    b.bundle()
-    .on('error', logError)
-    .pipe(fs.createWriteStream(config.dist.js));
-  }
-
+  bundle(browserifyCore(true));
 });
 
 gulp.task('build', ['html', 'sass', 'ts', 'minify']);
@@ -133,6 +125,7 @@ gulp.task('watch', ['html:watch','sass:watch','ts:watch']);
 // Only minify if NODE_ENV=production
 gulp.task('minify', ['ts'], function() {
   if (process.env.NODE_ENV !== 'production') {
+    log('Skipping minify');
     return;
   }
   var output = uglify.minify(config.dist.js, {
