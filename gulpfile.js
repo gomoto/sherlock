@@ -36,21 +36,16 @@ var minifyHtml = () => {
 
 gulp.task('html', function() {
   var vendor = (process.env.NODE_ENV === 'production') ? config.vendor.production : config.vendor.default;
-
-  var options = {
-    transforms: {
-      angular: () => { return vendor.angular },
-      uiRouter: () => { return vendor['angular-ui-router'] },
-      pouchdb: () => { return vendor.pouchdb }
-    }
-  };
-
   inject(config.entry.html)
-  .replace('angular', config.entry.html, options)
-  .replace('angular-ui-router', config.entry.html, options)
-  .replace('pouchdb', config.entry.html, options)
-  .replace('js', config.dist.js)
-  .replace('css', config.dist.css)
+  .replaceValues('js', {
+    angular: vendor.angular,
+    'angular-ui-router': vendor['angular-ui-router'],
+    pouchdb: vendor.pouchdb,
+    app: config.dist.js
+  })
+  .replaceValues('css', {
+    app: config.dist.css
+  })
   .replace('template', config.src.html)
   .write(config.dist.html, minifyHtml);
 });

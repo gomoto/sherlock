@@ -7,25 +7,18 @@
   <title>Sherlock</title>
   <base href="/">
   <!--inject:css-->
-  <link rel="stylesheet" href="{path}">
+  <link rel="stylesheet" href="{app}">
   <!--endinject-->
 </head>
 <body>
   <navbar></navbar>
   <div id="uiRoot" ui-view></div>
 
-  <!--inject:angular-->
-  <script src="{path angular}"></script>
-  <!--endinject-->
-  <!--inject:angular-ui-router-->
-  <script src="{path uiRouter}"></script>
-  <!--endinject-->
-  <!--inject:pouchdb-->
-  <script src="{path pouchdb}"></script>
-  <!--endinject-->
-
   <!--inject:js-->
-  <script src="{path}"></script>
+    <script src="{angular}"></script>
+    <script src="{angular-ui-router}"></script>
+    <script src="{pouchdb}"></script>
+    <script src="{app}"></script>
   <!--endinject-->
 
   <!--inject:template-->
