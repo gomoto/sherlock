@@ -5,13 +5,13 @@ var gulp = require('gulp');
 var htmlminifier = require('html-minifier').minify;
 var inject = require('html-injector');
 var log = require('gulp-util').log;
-var minifyify = require('minifyify');
 var path = require('path');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var trash = require('trash');
 var tsify = require('tsify');
 var uglify = require('uglify-js');
+var uglifyify = require('uglifyify');
 var watchify = require('watchify');
 
 
@@ -88,14 +88,14 @@ gulp.task('ts', function() {
   return browserify(config.options.browserify)
   .add(config.entry.ts)
   .plugin(tsify, config.options.tsify)
-  .plugin(minifyify, config.options.minifyify)
+  .transform(uglifyify)
   .bundle()
   .on('error', logError)
   .pipe(fs.createWriteStream(config.dist.js));
 });
 
 gulp.task('ts:clean', function() {
-  trash([config.dist.js, config.options.minifyify.output]);
+  trash([config.dist.js]);
 });
 
 var watchifyOptions = Object.assign({
@@ -109,7 +109,7 @@ gulp.task('ts:watch', function() {
   var b = browserify(watchifyOptions)
   .add(config.entry.ts)
   .plugin(tsify, config.options.tsify)
-  .plugin(minifyify, config.options.minifyify)
+  .transform(uglifyify)
   .on('update', bundle)
   .on('update', console.log)
   .on('log', console.log);
