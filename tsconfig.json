@@ -6,7 +6,7 @@
     "removeComments": true,
     "target": "es5"
   },
-  "compileOnSave": true,
+  "compileOnSave": false,
   "buildOnSave": false,
   "filesGlob": [
     "src/**/*.ts",

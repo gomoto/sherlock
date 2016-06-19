@@ -1,0 +1,44 @@
+{
+  "dist": {
+    "html": "index.html",
+    "css": "app.css",
+    "js": "app.js"
+  },
+  "entry": {
+    "html": "src/app.html",
+    "scss": "src/app.scss",
+    "ts": "src/app.ts"
+  },
+  "src": {
+    "html": "src/*/*.html",
+    "scss": "src/**/*.scss",
+    "ts": "src/**/*.ts"
+  },
+  "options": {
+    "browserify": {
+      "cache": {},
+      "packageCache": {},
+      "debug": true
+    },
+    "tsify": {
+    },
+    "sass": {
+      "outputStyle": "compressed"
+    },
+    "autoprefixer": {
+      "browsers": ["last 2 versions"]
+    }
+  },
+  "vendor": {
+    "default": {
+      "angular": "node_modules/angular/angular.js",
+      "angular-ui-router": "node_modules/angular-ui-router/release/angular-ui-router.js",
+      "pouchdb": "node_modules/pouchdb/dist/pouchdb.js"
+    },
+    "production": {
+      "angular": "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.js",
+      "angular-ui-router": "https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js",
+      "pouchdb": "https://cdnjs.cloudflare.com/ajax/libs/pouchdb/5.4.1/pouchdb.js"
+    }
+  }
+}

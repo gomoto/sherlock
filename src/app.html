@@ -7,15 +7,20 @@
   <title>Sherlock</title>
   <base href="/">
   <!--inject:css-->
-  <link rel="stylesheet" href="{path}">
+  <link rel="stylesheet" href="{app}">
   <!--endinject-->
 </head>
 <body>
   <navbar></navbar>
   <div id="uiRoot" ui-view></div>
+
   <!--inject:js-->
-  <script src="{path}"></script>
+    <script src="{angular}"></script>
+    <script src="{angular-ui-router}"></script>
+    <script src="{pouchdb}"></script>
+    <script src="{app}"></script>
   <!--endinject-->
+
   <!--inject:template-->
   <script type="text/ng-template" id="{path}">{content}</script>
   <!--endinject-->
