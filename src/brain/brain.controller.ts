@@ -3,7 +3,7 @@ import { INote } from '../note/note.module';
 
 interface LevelTag {
   tag: string;
-  note: LevelNote;
+  notes: LevelNote[];
 }
 
 interface LevelNote {
@@ -13,6 +13,7 @@ interface LevelNote {
 }
 
 interface Level {
+  inputTags: string[];
   tags: LevelTag[];
   notes: LevelNote[];
 }
@@ -37,6 +38,7 @@ export default class BrainController {
     // Build level 0
 
     this.levels = [{
+      inputTags: [],
       tags: null,
       notes: null
     }];
@@ -56,7 +58,7 @@ export default class BrainController {
       .map((row: PouchQueryRow) => {
         return <LevelTag> {
           tag: row.key,
-          note: null
+          notes: null
         };
       });
     })
@@ -99,6 +101,78 @@ export default class BrainController {
   closeNote() {
     this.$log.debug('closing note');
     this.note = null;
+  }
+
+  // Build the next level of tags and notes
+  // based on the current level and a tag.
+  goToNextLevel(currentLevelNumber: number, levelTag: LevelTag) {
+
+    // remove levels above current
+    this.levels.splice(currentLevelNumber + 1, this.levels.length);
+
+    var nextLevel: Level = {
+      inputTags: this.levels[currentLevelNumber].inputTags.concat(levelTag.tag),
+      tags: [],
+      notes: []
+    };
+
+    // create next level
+    this.levels.push(nextLevel);
+
+    // All notes with tag
+
+    this.pouchdb.query('tags', {
+      reduce: false,
+      key: levelTag.tag
+    })
+    .then((response: any) => {
+      this.$log.info('note query response', response);
+
+      // process all levelNotes
+
+      var tagNotes: {[tag: string]: LevelNote[]} = {};
+
+      // one note per row
+      response.rows.forEach((row: any) => {
+        var levelNote: LevelNote = {
+          _id: row.id,
+          title: row.value.title,
+          tags: row.value.tags
+        };
+
+        var intersection = _.intersection(nextLevel.inputTags, levelNote.tags);
+
+        // exact match, show it as a note.
+        if (intersection.length === levelNote.tags.length) {
+          nextLevel.notes.push(levelNote);
+        }
+        // partial match; include it under tags
+        else if (intersection.length === nextLevel.inputTags.length) {
+          levelNote.tags.forEach((tag) => {
+            if (_.includes(nextLevel.inputTags, tag)) {
+              return;
+            }
+            if (!tagNotes[tag]) {
+              tagNotes[tag] = [];
+            }
+            tagNotes[tag].push(levelNote);
+          });
+        }
+      });
+
+      // convert tag map into list
+
+      var levelTags = Object.keys(tagNotes).map((tag)=>{
+        return {
+          tag: tag,
+          notes: <LevelNote[]> tagNotes[tag]
+        };
+      });
+
+      nextLevel.tags = _.sortBy(levelTags, 'tag');
+
+    })
+    .catch(this.$log.error);
   }
 
 }

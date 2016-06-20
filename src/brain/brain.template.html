@@ -1,7 +1,9 @@
-<div class="level" ng-repeat="level in $ctrl.levels">
+<div class="level" ng-repeat="level in $ctrl.levels" ng-init="$currentLevel=$index">
   <div class="level-tag"
     ng-repeat="levelTag in level.tags"
-    ng-bind="levelTag.tag">
+    ng-bind="levelTag.tag"
+    ng-mouseenter="$ctrl.goToNextLevel($currentLevel, levelTag)"
+    ng-mouseover="$event.stopPropagation()">
   </div>
   <div class="level-divider"></div>
   <div class="level-note"

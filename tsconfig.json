@@ -4,6 +4,7 @@
     "noEmitOnError": false,
     "noImplicitAny": true,
     "removeComments": true,
+    "suppressImplicitAnyIndexErrors": true,
     "target": "es5"
   },
   "compileOnSave": false,
