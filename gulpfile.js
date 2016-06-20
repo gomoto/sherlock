@@ -40,6 +40,7 @@ gulp.task('html', function() {
   .replaceValues('js', {
     angular: vendor.angular,
     'angular-ui-router': vendor['angular-ui-router'],
+    lodash: vendor.lodash,
     pouchdb: vendor.pouchdb,
     app: config.dist.js
   })

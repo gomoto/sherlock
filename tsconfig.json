@@ -31,6 +31,7 @@
     "typings/globals/angular-ui-router/index.d.ts",
     "typings/globals/angular/index.d.ts",
     "typings/globals/jquery/index.d.ts",
+    "typings/globals/lodash/index.d.ts",
     "typings/index.d.ts",
     "typings/pouchdb/pouchdb.d.ts"
   ]
