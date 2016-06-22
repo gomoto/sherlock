@@ -92,13 +92,16 @@ export default class BrainController {
 
     this.$rootElement.on('mouseover', () => {
       this.$scope.$apply(() => {
-        this.$rootElement.off('mouseover');
         this.closeNote();
       });
     });
   }
 
   closeNote() {
+    this.$rootElement.off('mouseover');
+    if (this.note === null) {
+      return;
+    }
     this.$log.debug('closing note');
     this.note = null;
   }
@@ -188,6 +191,11 @@ export default class BrainController {
       tags: tags,
       notes: notes
     });
+  }
+
+  onTagMouseover(event: JQueryMouseEventObject) {
+    event.stopPropagation();
+    this.closeNote();
   }
 
 }
