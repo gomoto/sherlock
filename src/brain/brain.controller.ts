@@ -13,7 +13,7 @@ interface LevelNote {
 }
 
 interface Level {
-  inputTags: string[];
+  selectedTag: string;
   tags: LevelTag[];
   notes: LevelNote[];
 }
@@ -38,7 +38,7 @@ export default class BrainController {
     // Build level 0
 
     this.levels = [{
-      inputTags: [],
+      selectedTag: null,
       tags: null,
       notes: null
     }];
@@ -107,17 +107,17 @@ export default class BrainController {
   // based on the current level and a tag.
   goToNextLevel(currentLevelNumber: number, levelTag: LevelTag) {
 
+    var currentLevel = this.levels[currentLevelNumber];
+    currentLevel.selectedTag = levelTag.tag;
+
     // remove levels above current
     this.levels.splice(currentLevelNumber + 1, this.levels.length);
 
-    var nextLevel: Level = {
-      inputTags: this.levels[currentLevelNumber].inputTags.concat(levelTag.tag),
-      tags: [],
-      notes: []
-    };
+    var inputTags = this.levels.map((level) => {
+      return level.selectedTag;
+    });
 
-    // create next level
-    this.levels.push(nextLevel);
+    var nextLevel: Level;
 
     if (levelTag.notes === null) {
       // All notes with tag
@@ -135,34 +135,33 @@ export default class BrainController {
             tags: row.value.tags
           };
         });
-        this.buildNextLevelFromLevelNotes(levelNotes, nextLevel);
+        this.buildNextLevel(levelNotes, inputTags);
       })
       .catch(this.$log.error);
     }
     else {
-      this.buildNextLevelFromLevelNotes(levelTag.notes, nextLevel);
+      this.buildNextLevel(levelTag.notes, inputTags);
     }
-
   }
 
-  // mutate nextLevel
-  buildNextLevelFromLevelNotes(levelNotes: LevelNote[], nextLevel: Level) {
+  buildNextLevel(levelNotes: LevelNote[], inputTags: string[]) {
     // process all levelNotes
 
     var tagNotes: {[tag: string]: LevelNote[]} = {};
+    var notes: LevelNote[] = [];
 
     // one note per row
     levelNotes.forEach((levelNote) => {
-      var intersection = _.intersection(nextLevel.inputTags, levelNote.tags);
+      var intersection = _.intersection(inputTags, levelNote.tags);
 
       // exact match, show it as a note.
       if (intersection.length === levelNote.tags.length) {
-        nextLevel.notes.push(levelNote);
+        notes.push(levelNote);
       }
       // partial match; include it under tags
-      else if (intersection.length === nextLevel.inputTags.length) {
+      else if (intersection.length === inputTags.length) {
         levelNote.tags.forEach((tag) => {
-          if (_.includes(nextLevel.inputTags, tag)) {
+          if (_.includes(inputTags, tag)) {
             return;
           }
           if (!tagNotes[tag]) {
@@ -182,7 +181,13 @@ export default class BrainController {
       };
     });
 
-    nextLevel.tags = _.sortBy(levelTags, 'tag');
+    var tags = _.sortBy(levelTags, 'tag');
+
+    this.levels.push({
+      selectedTag: null,
+      tags: tags,
+      notes: notes
+    });
   }
 
 }

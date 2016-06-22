@@ -21,16 +21,14 @@ brain {
 
   .level-tag,
   .level-note {
-
     height: $height;
     line-height: $height;
     padding: 0 8px;
     cursor: default;
+  }
 
-    &:hover {
-      background: $gray100;
-    }
-
+  .level-tag--selected {
+    background: $gray200;
   }
 
   .level-divider {
