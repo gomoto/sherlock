@@ -193,9 +193,19 @@ export default class BrainController {
     });
   }
 
+  goToNthLevel(n: number) {
+    this.$log.debug('Going to level %s', n);
+    this.levels.splice(n + 1, this.levels.length);
+  }
+
   onTagMouseover(event: JQueryMouseEventObject) {
     event.stopPropagation();
     this.closeNote();
+  }
+
+  onTitleMouseover(event: JQueryMouseEventObject, levelNumber: number) {
+    event.stopPropagation();
+    this.goToNthLevel(levelNumber);
   }
 
 }

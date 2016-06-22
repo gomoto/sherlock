@@ -11,7 +11,7 @@
     ng-repeat="levelNote in level.notes"
     ng-bind="levelNote.title"
     ng-mouseenter="$ctrl.openNote(levelNote._id)"
-    ng-mouseover="$event.stopPropagation()">
+    ng-mouseover="$ctrl.onTitleMouseover($event, $currentLevel)">
   </div>
 </div>
 <section class="note-preview" ng-if="$ctrl.note" ng-mouseover="$event.stopPropagation()">
