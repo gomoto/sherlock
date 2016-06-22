@@ -119,25 +119,30 @@ export default class BrainController {
     // create next level
     this.levels.push(nextLevel);
 
-    // All notes with tag
+    if (levelTag.notes === null) {
+      // All notes with tag
+      this.pouchdb.query('tags', {
+        reduce: false,
+        key: levelTag.tag
+      })
+      .then((response: any) => {
+        this.$log.info('note query response', response);
+        // one note per row
+        var levelNotes = response.rows.map((row: any) => {
+          return <LevelNote> {
+            _id: row.id,
+            title: row.value.title,
+            tags: row.value.tags
+          };
+        });
+        this.buildNextLevelFromLevelNotes(levelNotes, nextLevel);
+      })
+      .catch(this.$log.error);
+    }
+    else {
+      this.buildNextLevelFromLevelNotes(levelTag.notes, nextLevel);
+    }
 
-    this.pouchdb.query('tags', {
-      reduce: false,
-      key: levelTag.tag
-    })
-    .then((response: any) => {
-      this.$log.info('note query response', response);
-      // one note per row
-      var levelNotes = response.rows.map((row: any) => {
-        return <LevelNote> {
-          _id: row.id,
-          title: row.value.title,
-          tags: row.value.tags
-        };
-      });
-      this.buildNextLevelFromLevelNotes(levelNotes, nextLevel);
-    })
-    .catch(this.$log.error);
   }
 
   // mutate nextLevel
