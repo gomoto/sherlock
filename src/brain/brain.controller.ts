@@ -14,6 +14,7 @@ interface LevelNote {
 
 interface Level {
   selectedTag: string;
+  selectedNote: LevelNote;
   tags: LevelTag[];
   notes: LevelNote[];
 }
@@ -39,6 +40,7 @@ export default class BrainController {
 
     this.levels = [{
       selectedTag: null,
+      selectedNote: null,
       tags: null,
       notes: null
     }];
@@ -84,11 +86,15 @@ export default class BrainController {
 
   }
 
-  openNote(noteId: string) {
+  openNote(note: LevelNote, currentLevelNumber: number) {
     this.$log.debug('opening note');
     this.$rootElement.off('mouseover');
 
-    this.note = this.pouchdb.getNote(noteId);
+    this.note = this.pouchdb.getNote(note._id);
+
+    var currentLevel = this.levels[currentLevelNumber];
+    currentLevel.selectedTag = null;
+    currentLevel.selectedNote = note;
 
     this.$rootElement.on('mouseover', () => {
       this.$scope.$apply(() => {
@@ -112,6 +118,7 @@ export default class BrainController {
 
     var currentLevel = this.levels[currentLevelNumber];
     currentLevel.selectedTag = levelTag.tag;
+    currentLevel.selectedNote = null;
 
     // remove levels above current
     this.levels.splice(currentLevelNumber + 1, this.levels.length);
@@ -188,6 +195,7 @@ export default class BrainController {
 
     this.levels.push({
       selectedTag: null,
+      selectedNote: null,
       tags: tags,
       notes: notes
     });
@@ -206,6 +214,12 @@ export default class BrainController {
   onTitleMouseover(event: JQueryMouseEventObject, levelNumber: number) {
     event.stopPropagation();
     this.goToNthLevel(levelNumber);
+  }
+
+  onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {
+    var currentLevel = this.levels[levelNumber];
+    currentLevel.selectedTag = null;
+    currentLevel.selectedNote = null;
   }
 
 }

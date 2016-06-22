@@ -1,4 +1,4 @@
-<div class="level" ng-repeat="level in $ctrl.levels" ng-init="$currentLevel=$index">
+<div class="level" ng-repeat="level in $ctrl.levels" ng-init="$currentLevel=$index" ng-mouseover="$ctrl.onLevelMouseover($event, $currentLevel)">
   <div class="level-tag"
     ng-class="{'level-tag--selected': levelTag.tag === level.selectedTag}"
     ng-repeat="levelTag in level.tags"
@@ -8,9 +8,10 @@
   </div>
   <div class="level-divider"></div>
   <div class="level-note"
+    ng-class="{'level-note--selected': levelNote === level.selectedNote}"
     ng-repeat="levelNote in level.notes"
     ng-bind="levelNote.title"
-    ng-mouseenter="$ctrl.openNote(levelNote._id)"
+    ng-mouseenter="$ctrl.openNote(levelNote, $currentLevel)"
     ng-mouseover="$ctrl.onTitleMouseover($event, $currentLevel)">
   </div>
 </div>
