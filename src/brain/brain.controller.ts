@@ -14,7 +14,6 @@ interface LevelNote {
 
 interface Level {
   selectedTag: string;
-  selectedNote: LevelNote;
   tags: LevelTag[];
   notes: LevelNote[];
 }
@@ -44,7 +43,6 @@ export default class BrainController {
 
     this.levels = [{
       selectedTag: null,
-      selectedNote: null,
       tags: null,
       notes: null
     }];
@@ -97,7 +95,6 @@ export default class BrainController {
 
     var currentLevel = this.levels[currentLevelNumber];
     currentLevel.selectedTag = null;
-    currentLevel.selectedNote = note;
   }
 
   closeNote() {
@@ -114,7 +111,6 @@ export default class BrainController {
 
     var currentLevel = this.levels[currentLevelNumber];
     currentLevel.selectedTag = levelTag.tag;
-    currentLevel.selectedNote = null;
 
     // remove levels above current
     this.levels.splice(currentLevelNumber + 1, this.levels.length);
@@ -191,7 +187,6 @@ export default class BrainController {
 
     this.levels.push({
       selectedTag: null,
-      selectedNote: null,
       tags: tags,
       notes: notes
     });
@@ -215,7 +210,6 @@ export default class BrainController {
   onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {
     var currentLevel = this.levels[levelNumber];
     currentLevel.selectedTag = null;
-    currentLevel.selectedNote = null;
   }
 
 }
