@@ -17,4 +17,10 @@ interface INote {
   tags: string[];
 }
 
-export { INote }
+interface INotePartial {
+  _id: string;
+  title: string;
+  tags: string[];
+}
+
+export { INote, INotePartial }
