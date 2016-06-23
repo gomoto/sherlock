@@ -106,4 +106,26 @@ export default class pouchdb {
     .catch(this.$log.error);
   }
 
+  getAllTags(): PouchPromise {
+    return this.query('tags', {
+      reduce: true,
+      group: true
+    })
+    .then((response: any) => {
+      this.$log.info('tag query response', response);
+      // one tag per row
+      return response.rows
+      .filter((row: PouchQueryRow)=>{
+        return row.key !== null;
+      })
+      .map((row: PouchQueryRow) => {
+        return {
+          tag: row.key,
+          notes: <INotePartial> null
+        };
+      });
+    })
+    .catch(this.$log.error);
+  }
+
 }

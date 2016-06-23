@@ -49,24 +49,10 @@ export default class BrainController {
 
     // All tags
 
-    this.pouchdb.query('tags', {
-      reduce: true,
-      group: true
-    })
-    .then((response: any) => {
-      this.$log.info('tag query response', response);
-      this.levels[0].tags = response.rows
-      .filter((row: PouchQueryRow)=>{
-        return row.key !== null;
-      })
-      .map((row: PouchQueryRow) => {
-        return <LevelTag> {
-          tag: row.key,
-          notes: null
-        };
-      });
-    })
-    .catch(this.$log.error);
+    this.pouchdb.getAllTags()
+    .then((tags: LevelTag[]) => {
+      this.levels[0].tags = tags;
+    });
 
     // All notes with zero tags
 
