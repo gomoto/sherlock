@@ -88,13 +88,16 @@ export default class BrainController {
 
   }
 
-  openNote(note: LevelNote, currentLevelNumber: number) {
-    this.$log.debug('opening note');
-
-    this.note = this.pouchdb.getNote(note._id);
-
-    var currentLevel = this.levels[currentLevelNumber];
+  onTitleMouseenter(levelNumber: number, levelNote: LevelNote) {
+    this.goToNthLevel(levelNumber);
+    var currentLevel = this.levels[levelNumber];
     currentLevel.selectedTag = null;
+    this.openNote(levelNote._id);
+  }
+
+  openNote(noteId: string) {
+    this.$log.debug('opening note');
+    this.note = this.pouchdb.getNote(noteId);
   }
 
   closeNote() {
@@ -197,11 +200,6 @@ export default class BrainController {
   goToNthLevel(n: number) {
     this.$log.debug('Going to level %s', n);
     this.levels.splice(n + 1, this.levels.length);
-  }
-
-  onTitleMouseover(event: JQueryMouseEventObject, levelNumber: number) {
-    event.stopPropagation();
-    this.goToNthLevel(levelNumber);
   }
 
   onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {

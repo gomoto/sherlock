@@ -11,8 +11,8 @@
     ng-class="{'level-note--selected': levelNote._id === $ctrl.note._id}"
     ng-repeat="levelNote in level.notes"
     ng-bind="levelNote.title"
-    ng-mouseenter="$ctrl.openNote(levelNote, $currentLevel)"
-    ng-mouseover="$ctrl.onTitleMouseover($event, $currentLevel)">
+    ng-mouseenter="$ctrl.onTitleMouseenter($currentLevel, levelNote)"
+    ng-mouseover="$event.stopPropagation();">
   </div>
 </div>
 <section class="note-preview" ng-if="$ctrl.note" ng-mouseover="$event.stopPropagation()">
