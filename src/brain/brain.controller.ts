@@ -203,6 +203,8 @@ export default class BrainController {
   }
 
   onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {
+    this.closeNote();
+    this.assertLevel(levelNumber);
     var currentLevel = this.levels[levelNumber];
     currentLevel.selectedTag = null;
   }
