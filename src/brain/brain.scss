@@ -20,17 +20,19 @@ brain {
   }
 
   .level-tag,
-  .level-title {
-
+  .level-note {
     height: $height;
     line-height: $height;
     padding: 0 8px;
     cursor: default;
+  }
 
-    &:hover {
-      background: $gray100;
-    }
+  .level-tag--selected {
+    background: $gray200;
+  }
 
+  .level-note--selected {
+    background: $gray200;
   }
 
   .level-divider {

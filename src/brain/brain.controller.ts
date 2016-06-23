@@ -2,20 +2,20 @@ import pouchdbService from '../pouchdb/pouchdb.service';
 import { INote } from '../note/note.module';
 
 interface LevelTag {
+  tag: string;
+  notes: LevelNote[];
+}
+
+interface LevelNote {
   _id: string;
   title: string;
-  tag: string;
   tags: string[];
 }
 
-interface LevelTitle {
-  _id: string;
-  title: string;
-}
-
 interface Level {
+  selectedTag: string;
   tags: LevelTag[];
-  titles: LevelTitle[]
+  notes: LevelNote[];
 }
 
 export default class BrainController {
@@ -23,12 +23,16 @@ export default class BrainController {
   levels: Level[];
   note: INote;
 
-  static $inject = ['$log','pouchdb','$rootElement','$scope','$window'];
+  static $inject = [
+    '$log',
+    'pouchdb',
+    '$scope',
+    '$window'
+  ];
 
   constructor(
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
-    private $rootElement: ng.IRootElementService,
     private $scope: ng.IScope,
     private $window: ng.IWindowService
   ) {
@@ -38,71 +42,127 @@ export default class BrainController {
     // Build level 0
 
     this.levels = [{
+      selectedTag: null,
       tags: null,
-      titles: null
+      notes: null
     }];
 
     // All tags
 
-    this.pouchdb.query('tags', {
-      reduce: true,
-      group: true
-    })
-    .then((response: any) => {
-      this.$log.info('tag query response', response);
-      this.levels[0].tags = response.rows
-      .filter((row: PouchQueryRow)=>{
-        return row.key !== null;
-      })
-      .map((row: PouchQueryRow) => {
-        return <LevelTag> {
-          _id: null,
-          tag: row.key,
-          title: null,
-          tags: null
-        };
-      });
-    })
-    .catch(this.$log.error);
+    this.pouchdb.getAllTags()
+    .then((tags: LevelTag[]) => {
+      this.levels[0].tags = tags;
+    });
 
-    // All notes with no tags
+    // All notes with zero tags
 
-    this.pouchdb.query('tags', {
-      reduce: false,
-      key: null
-    })
-    .then((response: any) => {
-      this.$log.info('note query response', response);
-      this.levels[0].titles = response.rows.map((row: any) => {
-        return <LevelTitle> {
-          _id: row.id,
-          title: row.value.title
-        };
-      });
-    })
-    .catch(this.$log.error);
+    this.pouchdb.getNotesWithTag(null)
+    .then((levelNotes: LevelNote[]) => {
+      this.levels[0].notes = levelNotes
+    });
 
+  }
+
+  onTitleMouseenter(levelNumber: number, levelNote: LevelNote) {
+    this.openNote(levelNote._id);
+    this.assertLevel(levelNumber);
+    this.levels[levelNumber].selectedTag = null;
   }
 
   openNote(noteId: string) {
     this.$log.debug('opening note');
-    this.$rootElement.off('mouseover');
-    this.pouchdb.get(noteId)
-    .then((note: INote) => {
-      this.note = note;
-      this.$rootElement.on('mouseover', () => {
-        this.$scope.$apply(() => {
-          this.$rootElement.off('mouseover');
-          this.closeNote();
-        });
-      });
-    })
-    .catch(this.$log.error);
+    this.note = this.pouchdb.getNote(noteId);
   }
 
   closeNote() {
+    if (this.note === null) {
+      return;
+    }
     this.$log.debug('closing note');
     this.note = null;
+  }
+
+  // Build the next level of tags and notes
+  // based on the current level and a tag.
+  onTagMouseenter(levelNumber: number, levelTag: LevelTag) {
+    this.closeNote();
+    this.assertLevel(levelNumber);
+    this.levels[levelNumber].selectedTag = levelTag.tag;
+
+    var inputTags = this.levels.map((level) => {
+      return level.selectedTag;
+    });
+
+    if (levelTag.notes === null) {
+      this.pouchdb.getNotesWithTag(levelTag.tag)
+      .then((levelNotes: LevelNote[]) => {
+        this.buildNextLevel(levelNotes, inputTags);
+      });
+    }
+    else {
+      this.buildNextLevel(levelTag.notes, inputTags);
+    }
+  }
+
+  buildNextLevel(levelNotes: LevelNote[], inputTags: string[]) {
+    // process all levelNotes
+
+    var tagNotes: {[tag: string]: LevelNote[]} = {};
+    var notes: LevelNote[] = [];
+
+    // one note per row
+    levelNotes.forEach((levelNote) => {
+      var intersection = _.intersection(inputTags, levelNote.tags);
+
+      // exact match, show it as a note.
+      if (intersection.length === levelNote.tags.length) {
+        notes.push(levelNote);
+      }
+      // partial match; include it under tags
+      else if (intersection.length === inputTags.length) {
+        levelNote.tags.forEach((tag) => {
+          if (_.includes(inputTags, tag)) {
+            return;
+          }
+          if (!tagNotes[tag]) {
+            tagNotes[tag] = [];
+          }
+          tagNotes[tag].push(levelNote);
+        });
+      }
+    });
+
+    // convert tag map into list
+
+    var levelTags = Object.keys(tagNotes).map((tag)=>{
+      return {
+        tag: tag,
+        notes: <LevelNote[]> tagNotes[tag]
+      };
+    });
+
+    var tags = _.sortBy(levelTags, 'tag');
+
+    this.levels.push({
+      selectedTag: null,
+      tags: tags,
+      notes: notes
+    });
+  }
+
+  // remove levels above n
+  assertLevel(n: number) {
+    if (this.levels.length - 1 <= n) {
+      return;
+    }
+    this.$log.debug('Assert level ', n);
+    this.levels.splice(n + 1, this.levels.length);
+  }
+
+  onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {
+    this.closeNote();
+    this.assertLevel(levelNumber);
+    this.levels[levelNumber].selectedTag = null;
   }
 
 }
