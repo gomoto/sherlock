@@ -8,7 +8,7 @@
   </div>
   <div class="level-divider"></div>
   <div class="level-note"
-    ng-class="{'level-note--selected': levelNote === level.selectedNote}"
+    ng-class="{'level-note--selected': levelNote._id === $ctrl.note._id}"
     ng-repeat="levelNote in level.notes"
     ng-bind="levelNote.title"
     ng-mouseenter="$ctrl.openNote(levelNote, $currentLevel)"
