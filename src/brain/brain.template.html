@@ -3,8 +3,8 @@
     ng-class="{'level-tag--selected': levelTag.tag === level.selectedTag}"
     ng-repeat="levelTag in level.tags"
     ng-bind="levelTag.tag"
-    ng-mouseenter="$ctrl.goToNextLevel($currentLevel, levelTag)"
-    ng-mouseover="$ctrl.onTagMouseover($event)">
+    ng-mouseenter="$ctrl.onTagMouseenter($currentLevel, levelTag)"
+    ng-mouseover="$event.stopPropagation()">
   </div>
   <div class="level-divider"></div>
   <div class="level-note"

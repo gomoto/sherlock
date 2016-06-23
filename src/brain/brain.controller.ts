@@ -107,7 +107,9 @@ export default class BrainController {
 
   // Build the next level of tags and notes
   // based on the current level and a tag.
-  goToNextLevel(currentLevelNumber: number, levelTag: LevelTag) {
+  onTagMouseenter(currentLevelNumber: number, levelTag: LevelTag) {
+
+    this.closeNote();
 
     var currentLevel = this.levels[currentLevelNumber];
     currentLevel.selectedTag = levelTag.tag;
@@ -195,11 +197,6 @@ export default class BrainController {
   goToNthLevel(n: number) {
     this.$log.debug('Going to level %s', n);
     this.levels.splice(n + 1, this.levels.length);
-  }
-
-  onTagMouseover(event: JQueryMouseEventObject) {
-    event.stopPropagation();
-    this.closeNote();
   }
 
   onTitleMouseover(event: JQueryMouseEventObject, levelNumber: number) {
