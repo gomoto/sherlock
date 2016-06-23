@@ -89,10 +89,9 @@ export default class BrainController {
   }
 
   onTitleMouseenter(levelNumber: number, levelNote: LevelNote) {
-    this.assertLevel(levelNumber);
-    var currentLevel = this.levels[levelNumber];
-    currentLevel.selectedTag = null;
     this.openNote(levelNote._id);
+    this.assertLevel(levelNumber);
+    this.levels[levelNumber].selectedTag = null;
   }
 
   openNote(noteId: string) {
@@ -111,20 +110,13 @@ export default class BrainController {
   // Build the next level of tags and notes
   // based on the current level and a tag.
   onTagMouseenter(levelNumber: number, levelTag: LevelTag) {
-
     this.closeNote();
-
-    var currentLevel = this.levels[levelNumber];
-    currentLevel.selectedTag = levelTag.tag;
-
-    // remove levels above current
     this.assertLevel(levelNumber);
+    this.levels[levelNumber].selectedTag = levelTag.tag;
 
     var inputTags = this.levels.map((level) => {
       return level.selectedTag;
     });
-
-    var nextLevel: Level;
 
     if (levelTag.notes === null) {
       // All notes with tag
@@ -197,16 +189,16 @@ export default class BrainController {
     });
   }
 
+  // remove levels above n
   assertLevel(n: number) {
-    this.$log.debug('Going to level %s', n);
+    this.$log.debug('Assert level ', n);
     this.levels.splice(n + 1, this.levels.length);
   }
 
   onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {
     this.closeNote();
     this.assertLevel(levelNumber);
-    var currentLevel = this.levels[levelNumber];
-    currentLevel.selectedTag = null;
+    this.levels[levelNumber].selectedTag = null;
   }
 
 }
