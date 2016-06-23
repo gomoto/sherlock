@@ -191,6 +191,9 @@ export default class BrainController {
 
   // remove levels above n
   assertLevel(n: number) {
+    if (this.levels.length - 1 <= n) {
+      return;
+    }
     this.$log.debug('Assert level ', n);
     this.levels.splice(n + 1, this.levels.length);
   }
