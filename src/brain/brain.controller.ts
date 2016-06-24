@@ -21,7 +21,7 @@ interface Level {
 export default class BrainController {
 
   levels: Level[];
-  note: INote;
+  note: INote & {$promise: ng.IPromise<INote>};
 
   static $inject = [
     '$document',
@@ -78,7 +78,9 @@ export default class BrainController {
   openNote(noteId: string) {
     this.$log.debug('opening note');
     this.note = this.pouchdb.getNote(noteId);
-    // this.translate();
+    this.note.$promise.then(() => {
+      this.translate();
+    });
   }
 
   closeNote() {
