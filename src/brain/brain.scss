@@ -57,17 +57,28 @@ brain {
   }
 
   .note-content {
-
     display: block;
     resize: none;
     width: 100%;
-    height: calc(100% - #{$height});
+    height: auto;
 
     border: 0;
     outline: 0;
     padding: $height / 2 8px;
     background: transparent;
+  }
 
+  .note-tags {
+    padding: 0 4px;
+  }
+
+  .note-tag {
+    display: inline-block;
+    margin: 4px;
+    padding: 2px 4px;
+    border-radius: 1px;
+    background: $gray200;
+    cursor: default;
   }
 
 }

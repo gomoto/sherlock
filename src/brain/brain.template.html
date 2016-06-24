@@ -21,4 +21,7 @@
 <section class="note-preview" ng-if="$ctrl.note">
   <header ng-bind="$ctrl.note.title" class="note-title"></header>
   <textarea readonly ng-bind="$ctrl.note.content" class="note-content"></textarea>
+  <div class="note-tags">
+    <span class="note-tag" ng-repeat="tag in $ctrl.note.tags" ng-bind="tag"></span>
+  </div>
 </section>
