@@ -191,7 +191,7 @@ export default class BrainController {
   translate = () => {
     this.$timeout(() => {
       // level widths + note width
-      var contentWidth = this.calculateWidth('.level') + this.calculateWidth('.note-preview');
+      var contentWidth = this.calculateWidth('brain .level') + this.calculateWidth('brain .note');
       var outerWidth = this.calculateElementWidth(this.$element[0]);
       var diff = Math.max(0, contentWidth - outerWidth);
       var transform = 'translateX(-' + diff + 'px)';
