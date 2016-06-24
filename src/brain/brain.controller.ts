@@ -24,16 +24,22 @@ export default class BrainController {
   note: INote;
 
   static $inject = [
+    '$document',
+    '$element',
     '$log',
     'pouchdb',
     '$scope',
+    '$timeout',
     '$window'
   ];
 
   constructor(
+    private $document: ng.IDocumentService,
+    private $element: ng.IAugmentedJQuery,
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
     private $scope: ng.IScope,
+    private $timeout: ng.ITimeoutService,
     private $window: ng.IWindowService
   ) {
 
@@ -72,6 +78,7 @@ export default class BrainController {
   openNote(noteId: string) {
     this.$log.debug('opening note');
     this.note = this.pouchdb.getNote(noteId);
+    // this.translate();
   }
 
   closeNote() {
@@ -80,6 +87,7 @@ export default class BrainController {
     }
     this.$log.debug('closing note');
     this.note = null;
+    this.translate();
   }
 
   // Build the next level of tags and notes
@@ -148,6 +156,8 @@ export default class BrainController {
       tags: tags,
       notes: notes
     });
+
+    this.translate();
   }
 
   // remove levels above n
@@ -157,12 +167,45 @@ export default class BrainController {
     }
     this.$log.debug('Assert level ', n);
     this.levels.splice(n + 1, this.levels.length);
+    this.translate();
   }
 
   onLevelMouseover(event: JQueryMouseEventObject, levelNumber: number) {
     this.closeNote();
     this.assertLevel(levelNumber);
     this.levels[levelNumber].selectedTag = null;
+  }
+
+  translate() {
+    this.$timeout(() => {
+      // level widths + note width
+      var contentWidth = this.calculateWidth('.level') + this.calculateWidth('.note-preview');
+      var outerWidth = this.calculateElementWidth(this.$element[0]);
+      var diff = Math.max(0, contentWidth - outerWidth);
+      var transform = 'translateX(-' + diff + 'px)';
+      this.$element.css({
+        webkitTransform: transform,
+        MozTransform: transform,
+        msTransform: transform,
+        OTransform: transform,
+        transform: transform
+      });
+      this.$log.debug('Translating %s pixels to the left', diff);
+    });
+  }
+
+  private calculateWidth(selector: string) {
+    var sum = 0;
+    var elements = this.$document[0].querySelectorAll(selector);
+    for (var i = 0; i < elements.length; i++) {
+      sum += this.calculateElementWidth(elements.item(i));
+    }
+    return sum;
+  }
+
+  private calculateElementWidth(element: Element) {
+    var width = this.$window.getComputedStyle(element).getPropertyValue('width');
+    return parseFloat(width);
   }
 
 }
