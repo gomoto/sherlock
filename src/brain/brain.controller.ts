@@ -69,6 +69,16 @@ export default class BrainController {
 
   }
 
+  $onInit() {
+    this.$log.debug('Initializing brain component');
+    this.$window.addEventListener('resize', this.translate, false);
+  }
+
+  $onDestroy() {
+    this.$log.debug('Destroying brain component');
+    this.$window.removeEventListener('resize', this.translate, false);
+  }
+
   onTitleMouseenter(levelNumber: number, levelNote: LevelNote) {
     this.openNote(levelNote._id);
     this.assertLevel(levelNumber);
@@ -178,7 +188,7 @@ export default class BrainController {
     this.levels[levelNumber].selectedTag = null;
   }
 
-  translate() {
+  translate = () => {
     this.$timeout(() => {
       // level widths + note width
       var contentWidth = this.calculateWidth('.level') + this.calculateWidth('.note-preview');
