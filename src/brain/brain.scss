@@ -54,13 +54,19 @@ brain {
     height: $height;
     line-height: $height;
     padding: 0 8px;
+    white-space: nowrap;
   }
 
   .note-content {
     display: block;
-    resize: none;
     width: 100%;
     height: auto;
+    white-space: normal;
+
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    word-break: break-word;
 
     border: 0;
     outline: 0;
@@ -70,6 +76,7 @@ brain {
 
   .note-tags {
     padding: 0 4px;
+    white-space: normal;
   }
 
   .note-tag {
