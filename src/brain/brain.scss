@@ -3,6 +3,7 @@ brain {
   display: block;
   height: 100%;
   white-space: nowrap;
+  transition: transform .2s;
 
   $height: 24px;
 
