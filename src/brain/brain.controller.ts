@@ -29,6 +29,7 @@ export default class BrainController {
     '$log',
     'pouchdb',
     '$scope',
+    '$state',
     '$timeout',
     '$window'
   ];
@@ -39,6 +40,7 @@ export default class BrainController {
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
     private $scope: ng.IScope,
+    private $state: ng.ui.IStateService,
     private $timeout: ng.ITimeoutService,
     private $window: ng.IWindowService
   ) {
@@ -218,6 +220,10 @@ export default class BrainController {
   private calculateElementWidth(element: Element) {
     var width = this.$window.getComputedStyle(element).getPropertyValue('width');
     return parseFloat(width);
+  }
+
+  editNote() {
+    this.$state.go('note', {note: this.note});
   }
 
 }
