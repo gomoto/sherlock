@@ -49,6 +49,11 @@ brain {
     padding: 8px 0;
   }
 
+  .level-space {
+    display: block;
+    height: 8px;
+  }
+
   .note {
     @extend %panel;
     width: 300px;

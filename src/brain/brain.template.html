@@ -16,6 +16,9 @@
     ng-bind="levelNote.title"
     ng-mouseenter="$ctrl.onTitleMouseenter($level, levelNote)">
   </div>
+  <div class="level-space"
+    ng-mouseenter="$ctrl.onLevelMouseover($event, $level)">
+  </div>
 </div>
 <section class="note" ng-if="$ctrl.note" ng-click="$ctrl.editNote()">
   <header class="note-title" ng-bind="$ctrl.note.title"></header>
