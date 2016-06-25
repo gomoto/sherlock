@@ -45,6 +45,6 @@
   },
   "base": {
     "default": "/",
-    "production": "/"
+    "production": "/sherlock/"
   }
 }
