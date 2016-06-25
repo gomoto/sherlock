@@ -70,26 +70,6 @@ export default class pouchdb {
     return this.$q.resolve(this.db.destroy());
   }
 
-  getNote(noteId: string): INote & {$promise: ng.IPromise<INote>} {
-    // Trust that this will eventually be a Note
-    var note = <INote & {$promise: ng.IPromise<INote>}> {
-      _id: noteId
-    };
-    // expose $promise
-    var deferred = this.$q.defer();
-    note.$promise = deferred.promise;
-
-    this.$q.resolve(this.db.get(noteId))
-    .then((response: INote) => {
-      note.title = response.title;
-      note.content = response.content;
-      note.tags = response.tags;
-      deferred.resolve(note);
-    })
-    .catch(this.$log.error);
-    return note;
-  }
-
   // Get notes with specified tag.
   // (content excluded from notes)
   getNotesWithTag(tag: string): PouchPromise {
