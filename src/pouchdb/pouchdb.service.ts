@@ -32,22 +32,22 @@ export default class pouchdb {
 
   }
 
-  get(id: string): PouchPromise {
+  get(id: string): ng.IPromise<any> {
     // wait for index promise?
     return this.$q.resolve(this.db.get(id));
   }
 
-  put(doc: any): PouchPromise {
+  put(doc: any): ng.IPromise<any> {
     // wait for index promise?
     return this.$q.resolve(this.db.put(doc));
   }
 
-  allDocs(options: PouchAllDocsOptions): PouchPromise {
+  allDocs(options: PouchAllDocsOptions): ng.IPromise<any> {
     // wait for index promise?
     return this.$q.resolve(this.db.allDocs(options));
   }
 
-  allNotes(): PouchPromise {
+  allNotes(): ng.IPromise<any> {
     // wait for index promise?
 
     let options = {
@@ -58,21 +58,21 @@ export default class pouchdb {
     return this.$q.resolve(this.db.allDocs(options));
   }
 
-  bulkDocs(docs: any[]) {
+  bulkDocs(docs: any[]): ng.IPromise<any> {
     return this.$q.resolve(this.db.bulkDocs(docs));
   }
 
-  query(viewName: string, options: any) {
+  query(viewName: string, options: any): ng.IPromise<any> {
     return this.$q.resolve(this.db.query(viewName, options));
   }
 
-  destroy(): PouchPromise {
+  destroy(): ng.IPromise<any> {
     return this.$q.resolve(this.db.destroy());
   }
 
   // Get notes with specified tag.
   // (content excluded from notes)
-  getNotesWithTag(tag: string): PouchPromise {
+  getNotesWithTag(tag: string): ng.IPromise<any> {
     return this.query('tags', {
       reduce: false,
       key: tag
@@ -80,7 +80,7 @@ export default class pouchdb {
     .then((response: any) => {
       this.$log.info('note query response', response);
       // one note per row
-      return response.rows.map((row: any) => {
+      return response.rows.map((row: PouchQueryRow) => {
         return {
           _id: row.id,
           title: row.value.title,
@@ -91,7 +91,7 @@ export default class pouchdb {
     .catch(this.$log.error);
   }
 
-  getAllTags(): PouchPromise {
+  getAllTags(): ng.IPromise<any> {
     return this.query('tags', {
       reduce: true,
       group: true
