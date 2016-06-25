@@ -19,6 +19,11 @@ navbar {
   height: calc(100% - #{$navbar-height});
 }
 
+@include scrollbar(
+  $scrollbar-thickness: 3px, $scrollbar-padding: 1px,
+  $scrollbar-thumb-color: $gray200, $scrollbar-track-color: $gray50
+);
+
 @import 'src/brain/brain';
 @import 'src/janitor/janitor';
 @import 'src/navbar/navbar';

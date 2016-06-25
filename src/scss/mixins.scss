@@ -1,0 +1,33 @@
+@mixin scrollbar(
+	// dimensions
+	$scrollbar-thickness: 4px,
+	$scrollbar-padding: 0px,
+	$scrollbar-halo: 0px,
+	// colors
+	$scrollbar-thumb-color: gray,
+	$scrollbar-track-color: white,
+	$scrollbar-halo-color: rgba($scrollbar-track-color, 0.5)
+) {
+	@if ($scrollbar-halo > $scrollbar-padding) {
+		@error 'scrollbar halo cannot be more than scrollbar padding';
+	}
+	$scrollbar-size: $scrollbar-thickness + 2 * $scrollbar-padding;
+	&::-webkit-scrollbar {
+		width: $scrollbar-size;
+	  height: $scrollbar-size;
+	}
+	&::-webkit-scrollbar-track {
+		background: $scrollbar-track-color;
+		outline: $scrollbar-halo solid $scrollbar-halo-color;
+		pointer-events: none;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: $scrollbar-thumb-color;
+		border: $scrollbar-padding solid $scrollbar-track-color;//simulate padding
+		border-radius: $scrollbar-size / 2;
+		background-clip: content-box;
+	}
+	&::-webkit-scrollbar-corner {
+		background: $scrollbar-track-color;
+	}
+}
