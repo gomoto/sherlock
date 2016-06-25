@@ -42,9 +42,11 @@ brain {
 
   .level-divider {
     display: block;
+    box-sizing: content-box;
     height: 1px;
     background: $gray200;
-    margin: 8px 0;
+    background-clip: content-box;
+    padding: 8px 0;
   }
 
   .note {
