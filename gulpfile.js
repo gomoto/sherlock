@@ -36,6 +36,7 @@ var minifyHtml = () => {
 
 gulp.task('html', function() {
   var vendor = (process.env.NODE_ENV === 'production') ? config.vendor.production : config.vendor.default;
+  var base = (process.env.NODE_ENV === 'production') ? config.base.production : config.base.default;
   inject(config.entry.html)
   .replaceValues('js', {
     angular: vendor.angular,
@@ -46,6 +47,9 @@ gulp.task('html', function() {
   })
   .replaceValues('css', {
     app: config.dist.css
+  })
+  .replaceValues('base', {
+    base: base
   })
   .replace('template', config.src.html)
   .write(config.dist.html, minifyHtml);

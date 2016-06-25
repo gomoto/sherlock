@@ -42,5 +42,9 @@
       "lodash": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js",
       "pouchdb": "https://cdnjs.cloudflare.com/ajax/libs/pouchdb/5.4.1/pouchdb.js"
     }
+  },
+  "base": {
+    "default": "/",
+    "production": "sherlock/"
   }
 }
