@@ -4,12 +4,18 @@ navbar {
   background: $gray100;
   border-bottom: 1px solid $gray300;
   line-height: $navbar-height;
-  padding: 0 8px;
+  padding: 0 4px;
 
   a {
     text-decoration: none;
     color: inherit;
     cursor: pointer;
+    margin: 0 4px;
+  }
+
+  a[ui-sref="janitor"] {
+    position: absolute;
+    right: 0;
   }
 
 }
