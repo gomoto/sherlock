@@ -21,7 +21,7 @@ interface Level {
 export default class BrainController {
 
   levels: Level[];
-  note: INote & {$promise: ng.IPromise<INote>};
+  note: INote;
 
   static $inject = [
     '$document',
@@ -29,6 +29,7 @@ export default class BrainController {
     '$log',
     'pouchdb',
     '$scope',
+    '$state',
     '$timeout',
     '$window'
   ];
@@ -39,6 +40,7 @@ export default class BrainController {
     private $log: ng.ILogService,
     private pouchdb: pouchdbService,
     private $scope: ng.IScope,
+    private $state: ng.ui.IStateService,
     private $timeout: ng.ITimeoutService,
     private $window: ng.IWindowService
   ) {
@@ -87,8 +89,9 @@ export default class BrainController {
 
   openNote(noteId: string) {
     this.$log.debug('opening note');
-    this.note = this.pouchdb.getNote(noteId);
-    this.note.$promise.then(() => {
+    this.pouchdb.get(noteId)
+    .then((note: INote) => {
+      this.note = note;
       this.translate();
     });
   }
@@ -218,6 +221,10 @@ export default class BrainController {
   private calculateElementWidth(element: Element) {
     var width = this.$window.getComputedStyle(element).getPropertyValue('width');
     return parseFloat(width);
+  }
+
+  editNote() {
+    this.$state.go('note', {note: this.note});
   }
 
 }

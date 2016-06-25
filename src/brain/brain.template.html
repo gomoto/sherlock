@@ -1,24 +1,26 @@
 <div class="level"
   ng-repeat="level in $ctrl.levels"
-  ng-init="$level=$index"
-  ng-mouseover="$ctrl.onLevelMouseover($event, $level)">
+  ng-init="$level=$index">
   <div class="level-tag"
     ng-class="{'level-tag--selected': levelTag.tag === level.selectedTag}"
     ng-repeat="levelTag in level.tags"
     ng-bind="levelTag.tag"
-    ng-mouseenter="$ctrl.onTagMouseenter($level, levelTag)"
-    ng-mouseover="$event.stopPropagation()">
+    ng-mouseenter="$ctrl.onTagMouseenter($level, levelTag)">
   </div>
-  <div class="level-divider"></div>
+  <div class="level-divider"
+    ng-mouseenter="$ctrl.onLevelMouseover($event, $level)">
+  </div>
   <div class="level-note"
     ng-class="{'level-note--selected': levelNote._id === $ctrl.note._id}"
     ng-repeat="levelNote in level.notes"
     ng-bind="levelNote.title"
-    ng-mouseenter="$ctrl.onTitleMouseenter($level, levelNote)"
-    ng-mouseover="$event.stopPropagation()">
+    ng-mouseenter="$ctrl.onTitleMouseenter($level, levelNote)">
+  </div>
+  <div class="level-space"
+    ng-mouseenter="$ctrl.onLevelMouseover($event, $level)">
   </div>
 </div>
-<section class="note" ng-if="$ctrl.note">
+<section class="note" ng-if="$ctrl.note" ng-click="$ctrl.editNote()">
   <header class="note-title" ng-bind="$ctrl.note.title"></header>
   <div class="note-content" ng-bind="$ctrl.note.content"></div>
   <div class="note-tags">

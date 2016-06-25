@@ -18,13 +18,17 @@ brain {
     @extend %panel;
     width: auto;
     background: $gray50;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .level-tag,
   .level-note {
     height: $height;
     line-height: $height;
-    padding: 0 8px;
+    padding: 0;
+    padding-left: 8px;
+    padding-right: 24px;
     cursor: default;
   }
 
@@ -38,9 +42,16 @@ brain {
 
   .level-divider {
     display: block;
+    box-sizing: content-box;
     height: 1px;
     background: $gray200;
-    margin: 8px 0;
+    background-clip: content-box;
+    padding: 8px 0;
+  }
+
+  .level-space {
+    display: block;
+    height: 8px;
   }
 
   .note {
