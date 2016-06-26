@@ -6,7 +6,7 @@ export default class NoteController {
 
   title: string;
   content: string;
-  tags: string;
+  tags: {text: string}[];
 
   static $inject = ['$log','pouchdb','$stateParams','$window'];
 
@@ -23,12 +23,14 @@ export default class NoteController {
     if (this.$stateParams.note) {
       this.title = this.$stateParams.note.title;
       this.content = this.$stateParams.note.content;
-      this.tags = this.$stateParams.note.tags.join(',');
+      this.tags = this.$stateParams.note.tags.map((tag) => {
+        return {text: tag};
+      });
     }
     else {
       this.title = '';
       this.content = '';
-      this.tags = '';
+      this.tags = [];
     }
   }
 
@@ -39,13 +41,7 @@ export default class NoteController {
       noteId = this.$stateParams.note._id;
     }
 
-    let tags: string[];
-    if (this.tags.length === 0) {
-      tags = [];
-    }
-    else {
-      tags = this.tags.split(',');
-    }
+    var tags = this.tags.map((tag) => { return tag.text; });
 
     let note: INote = {
       _id: noteId || this.createNoteId(),

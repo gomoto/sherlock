@@ -8,6 +8,7 @@ import pouchdb from './pouchdb/pouchdb.module';
 
 angular.module('sherlock', [
   'ui.router',
+  'ngTagsInput',
   brain,
   janitor,
   navbar,
