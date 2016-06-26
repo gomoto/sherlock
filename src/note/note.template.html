@@ -9,10 +9,15 @@
     class="note-content"
     placeholder="Enter content">
   </textarea>
-  <input type="text"
-    ng-model="$ctrl.tags"
+  <tags-input
     class="note-tags"
-    placeholder="Tags">
+    ng-model="$ctrl.tags"
+    min-length="1"
+    add-on-blur="false"
+    replace-spaces-with-dashes="false"
+    enable-editing-last-tag="true"
+    placeholder="Add tag">
+  </tags-input>
   <input type="submit"
     value="Submit note"
     class="note-submit"
