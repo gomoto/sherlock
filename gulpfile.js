@@ -41,11 +41,13 @@ gulp.task('html', function() {
   .replaceValues('js', {
     angular: vendor.angular,
     'angular-ui-router': vendor['angular-ui-router'],
+    'ng-tags-input': vendor['ng-tags-input'],
     lodash: vendor.lodash,
     pouchdb: vendor.pouchdb,
     app: config.dist.js
   })
   .replaceValues('css', {
+    'ng-tags-input-css': vendor['ng-tags-input-css'],
     app: config.dist.css
   })
   .replaceValues('base', {
