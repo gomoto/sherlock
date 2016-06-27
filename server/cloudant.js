@@ -8,6 +8,15 @@ var cloudant = Cloudant({
   console.log('Cloudant initialized');
 });
 
+cloudant.set_cors({
+  enable_cors: true,
+  allow_credentials: true,
+  origins: [ process.env.DOMAIN ]
+}, (error, data) => {
+  if (error) return console.error(error);
+  console.log('Cloudant CORS set');
+});
+
 module.exports = {
   // Create Cloudant database for the specified Stormpath user
   createDatabase: (user) => {

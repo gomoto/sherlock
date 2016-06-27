@@ -4,20 +4,40 @@ import { INote, INotePartial } from '../note/note.module';
 export default class pouchdb {
 
   private db: PouchDB;
+  private remote: PouchDB;
 
   static $inject = [
     '$log',
-    '$q'
+    '$q',
+    '$rootScope'
   ];
 
   constructor(
     private $log: ng.ILogService,
-    private $q: ng.IQService
+    private $q: ng.IQService,
+    private $rootScope: ng.IRootScopeService
   ) {
 
+    $log.info('Initializing PouchDB service');
+
+    // local db
     this.db = new PouchDB('sherlock');
 
-    // Replicate from server
+    var stopListening = $rootScope.$on('$currentUser', (error, user) => {
+      stopListening();
+      // remote db
+      this.remote = new PouchDB('https://sherlock.cloudant.com/' + user.username, {
+        auth: {
+          username: user.customData.cloudant_key,
+          password: user.customData.cloudant_password
+        }
+      });
+      // sync local with remote
+      PouchDB.sync(this.db, this.remote)
+      .on('complete', function (info: any) {
+        console.log('PouchDB sync complete', info);
+      });
+    });
 
     // Index tags
     this.db.put(design)
