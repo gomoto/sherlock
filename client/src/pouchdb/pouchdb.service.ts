@@ -1,7 +1,8 @@
 import design from './pouchdb.design';
 import { INote, INotePartial } from '../note/note.module';
+import { EventEmitter } from 'events';
 
-export default class pouchdb {
+export default class pouchdb extends EventEmitter {
 
   private db: PouchDB;
   private remote: PouchDB;
@@ -17,6 +18,8 @@ export default class pouchdb {
     private $q: ng.IQService,
     private $rootScope: ng.IRootScopeService
   ) {
+
+    super();
 
     $log.info('Initializing PouchDB service');
 
@@ -70,8 +73,9 @@ export default class pouchdb {
 
   }
 
-  emit(type: string, ...args: any[]) {
-    this.$log.info(type, ...args);
+  emit(event: string, ...args: any[]): boolean {
+    this.$log.info(event, ...args);
+    return super.emit(event, ...args);
   }
 
   get(id: string): ng.IPromise<any> {
