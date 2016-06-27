@@ -33,9 +33,27 @@ export default class pouchdb {
         }
       });
       // sync local with remote
-      PouchDB.sync(this.db, this.remote)
-      .on('complete', function (info: any) {
-        console.log('PouchDB sync complete', info);
+      PouchDB.sync(this.db, this.remote, {
+        live: true,
+        retry: true
+      })
+      .on('complete', (info: any) => {
+        this.emit('sync:complete', info);
+      })
+      .on('change', (change: any) => {
+        this.emit('sync:change', change);
+      })
+      .on('paused', (info: any) => {
+        this.emit('sync:paused', info);
+      })
+      .on('active', (info: any) => {
+        this.emit('sync:active', info);
+      })
+      .on('denied', (err: any) => {
+        this.emit('sync:denied', err);
+      })
+      .on('error', (err: any) => {
+        this.emit('sync:error', err);
       });
     });
 
@@ -50,6 +68,10 @@ export default class pouchdb {
       }
     });
 
+  }
+
+  emit(type: string, ...args: any[]) {
+    this.$log.info(type, ...args);
   }
 
   get(id: string): ng.IPromise<any> {
