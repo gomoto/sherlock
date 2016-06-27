@@ -1,14 +1,12 @@
 require('dotenv').config();
 
 var bodyParser = require('body-parser');         // pull information from HTML POST (express4)
+var config = require('./config');
 var express = require('express');
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var morgan = require('morgan');
-var path = require('path');
-var stormpath = require('express-stormpath');
+var stormpath = require('./stormpath');
 var winston = require('winston');
-
-var indexHtml = path.join(process.cwd(), 'index.html');
 
 var app = express();
 
@@ -18,58 +16,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 app.use(express.static(process.cwd()));                         // set the static files location
 app.use(morgan('dev'));
-
-app.use(stormpath.init(app, {
-  application: {
-    href: process.env.STORMPATH_HREF
-  },
-  client: {
-    apiKey: {
-      id: process.env.STORMPATH_ID,
-      secret: process.env.STORMPATH_SECRET
-    }
-  },
-  debug: 'info',
-  expand: {
-    customData: true,
-  },
-  postRegistrationHandler: (account, req, res, next) => {
-    console.log('TODO: create cloudant database for ', account.username);
-    next();
-  },
-  web: {
-    me: {
-      expand: {
-        customData: true
-      }
-    },
-    register: {
-      form: {
-        fields: {
-          givenName: {
-            enabled: false
-          },
-          surname: {
-            enabled: false
-          },
-          username: {
-            enabled: true,
-            label: 'Username',
-            name: 'username',
-            placeholder: '',
-            required: true,
-            type: 'text'
-          }
-        },
-        fieldOrder: [ 'username', 'email', 'password' ]
-      }
-    },
-    spa: {
-      enabled: true,
-      view: indexHtml
-    }
-  }
-}));
+app.use(stormpath.init(app));
 
 // Restricted routes should return a 404
 app.route('/:url(client|server)/*').get(function(req, res) {
@@ -78,7 +25,7 @@ app.route('/:url(client|server)/*').get(function(req, res) {
 
 // All other routes should redirect to index.html
 app.route('/*').get(function(req, res) {
-  res.sendFile(indexHtml);
+  res.sendFile(config.indexHtml);
 });
 
 // Stormpath is ready to start authenticating users
