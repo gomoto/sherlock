@@ -5,8 +5,8 @@ node_modules/
 /client/src/**/*.css
 /client/src/**/*.js
 
-typings/*
-!typings/pouchdb
+/client/typings/*
+!/client/typings/pouchdb
 
 /index.html
 /app.css

@@ -21,6 +21,7 @@
       "debug": true
     },
     "tsify": {
+      "project": "client/tsconfig.json"
     },
     "sass": {
       "outputStyle": "compressed"
