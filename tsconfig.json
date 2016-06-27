@@ -17,18 +17,6 @@
     "rewriteTsconfig": true
   },
   "files": [
-    "src/app.routing.ts",
-    "src/app.ts",
-    "src/brain/brain.controller.ts",
-    "src/brain/brain.module.ts",
-    "src/janitor/janitor.controller.ts",
-    "src/janitor/janitor.module.ts",
-    "src/navbar/navbar.module.ts",
-    "src/note/note.controller.ts",
-    "src/note/note.module.ts",
-    "src/pouchdb/pouchdb.design.ts",
-    "src/pouchdb/pouchdb.module.ts",
-    "src/pouchdb/pouchdb.service.ts",
     "typings/globals/angular-ui-router/index.d.ts",
     "typings/globals/angular/index.d.ts",
     "typings/globals/jquery/index.d.ts",

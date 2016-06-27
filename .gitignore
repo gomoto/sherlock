@@ -2,8 +2,8 @@
 
 node_modules/
 
-src/**/*.css
-src/**/*.js
+/client/src/**/*.css
+/client/src/**/*.js
 
 typings/*
 !typings/pouchdb

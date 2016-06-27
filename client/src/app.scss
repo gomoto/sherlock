@@ -24,7 +24,7 @@ navbar {
   $scrollbar-thumb-color: $gray200, $scrollbar-track-color: $gray50
 );
 
-@import 'src/brain/brain';
-@import 'src/janitor/janitor';
-@import 'src/navbar/navbar';
-@import 'src/note/note';
+@import 'brain/brain';
+@import 'janitor/janitor';
+@import 'navbar/navbar';
+@import 'note/note';
