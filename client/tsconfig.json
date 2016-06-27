@@ -18,6 +18,7 @@
   },
   "files": [
     "src/app.routing.ts",
+    "src/app.stormpath.ts",
     "src/app.ts",
     "src/brain/brain.controller.ts",
     "src/brain/brain.module.ts",

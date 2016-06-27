@@ -29,6 +29,10 @@ export default [
         note: null
       },
       template: '<note></note>'
+    })
+    .state('login', {
+      url: '/login',
+      template: '<div sp-login-form></div>'
     });
 
   }
