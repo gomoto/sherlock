@@ -33,10 +33,35 @@ app.use(stormpath.init(app, {
   expand: {
     customData: true,
   },
+  postRegistrationHandler: (account, req, res, next) => {
+    console.log('TODO: create cloudant database for ', account.username);
+    next();
+  },
   web: {
     me: {
       expand: {
         customData: true
+      }
+    },
+    register: {
+      form: {
+        fields: {
+          givenName: {
+            enabled: false
+          },
+          surname: {
+            enabled: false
+          },
+          username: {
+            enabled: true,
+            label: 'Username',
+            name: 'username',
+            placeholder: '',
+            required: true,
+            type: 'text'
+          }
+        },
+        fieldOrder: [ 'username', 'email', 'password' ]
       }
     },
     spa: {

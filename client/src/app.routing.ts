@@ -33,6 +33,14 @@ export default [
     .state('login', {
       url: '/login',
       template: '<div sp-login-form></div>'
+    })
+    .state('register', {
+      url: '/register',
+      template: '<div sp-registration-form></div>'
+    })
+    .state('verify', {
+      url: '/verify?sptoken',
+      template: '<div sp-email-verification></div>'
     });
 
   }
