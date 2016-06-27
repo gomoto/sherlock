@@ -37,7 +37,9 @@
       "lodash": "client/node_modules/lodash/lodash.js",
       "ng-tags-input": "client/node_modules/ng-tags-input/build/ng-tags-input.js",
       "ng-tags-input-css": "client/node_modules/ng-tags-input/build/ng-tags-input.css",
-      "pouchdb": "client/node_modules/pouchdb/dist/pouchdb.js"
+      "pouchdb": "client/node_modules/pouchdb/dist/pouchdb.js",
+      "stormpath-angular": "client/node_modules/stormpath-sdk-angularjs/dist/stormpath-sdk-angularjs.js",
+      "stormpath-angular-templates": "client/node_modules/stormpath-sdk-angularjs/dist/stormpath-sdk-angularjs.tpls.js"
     },
     "production": {
       "angular": "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.js",
@@ -45,7 +47,9 @@
       "lodash": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js",
       "ng-tags-input": "https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.1/ng-tags-input.js",
       "ng-tags-input-css": "https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.1.1/ng-tags-input.css",
-      "pouchdb": "https://cdnjs.cloudflare.com/ajax/libs/pouchdb/5.4.1/pouchdb.js"
+      "pouchdb": "https://cdnjs.cloudflare.com/ajax/libs/pouchdb/5.4.1/pouchdb.js",
+      "stormpath-angular": "https://raw.githubusercontent.com/stormpath/stormpath-sdk-angularjs/master/dist/stormpath-sdk-angularjs.min.js",
+      "stormpath-angular-templates": "https://raw.githubusercontent.com/stormpath/stormpath-sdk-angularjs/master/dist/stormpath-sdk-angularjs.tpls.min.js"
     }
   },
   "base": {
