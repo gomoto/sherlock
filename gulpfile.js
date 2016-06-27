@@ -41,6 +41,8 @@ gulp.task('html', function() {
   .replaceValues('js', {
     angular: vendor.angular,
     'angular-ui-router': vendor['angular-ui-router'],
+    'stormpath-angular': vendor['stormpath-angular'],
+    'stormpath-angular-templates': vendor['stormpath-angular-templates'],
     'ng-tags-input': vendor['ng-tags-input'],
     lodash: vendor.lodash,
     pouchdb: vendor.pouchdb,

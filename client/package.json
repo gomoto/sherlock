@@ -9,6 +9,7 @@
     "angular-ui-router": "^0.3.1",
     "lodash": "^4.13.1",
     "ng-tags-input": "^3.1.1",
-    "pouchdb": "^5.4.1"
+    "pouchdb": "^5.4.1",
+    "stormpath-sdk-angularjs": "^1.0.0"
   }
 }

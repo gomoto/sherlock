@@ -8,6 +8,8 @@ var path = require('path');
 var stormpath = require('express-stormpath');
 var winston = require('winston');
 
+var indexHtml = path.join(process.cwd(), 'index.html');
+
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended : 'true' }));          // parse application/x-www-form-urlencoded
@@ -31,18 +33,53 @@ app.use(stormpath.init(app, {
   expand: {
     customData: true,
   },
+  postRegistrationHandler: (account, req, res, next) => {
+    console.log('TODO: create cloudant database for ', account.username);
+    next();
+  },
   web: {
     me: {
       expand: {
         customData: true
       }
     },
+    register: {
+      form: {
+        fields: {
+          givenName: {
+            enabled: false
+          },
+          surname: {
+            enabled: false
+          },
+          username: {
+            enabled: true,
+            label: 'Username',
+            name: 'username',
+            placeholder: '',
+            required: true,
+            type: 'text'
+          }
+        },
+        fieldOrder: [ 'username', 'email', 'password' ]
+      }
+    },
     spa: {
       enabled: true,
-      view: path.join(process.cwd(), 'index.html')
+      view: indexHtml
     }
   }
 }));
+
+// Restricted routes should return a 404
+app.route('/:url(client|server)/*').get(function(req, res) {
+  res.sendStatus(404);
+});
+
+// All other routes should redirect to index.html
+app.route('/*').get(function(req, res) {
+  res.sendFile(indexHtml);
+});
 
 // Stormpath is ready to start authenticating users
 app.on('stormpath.ready', function() {
