@@ -1,23 +1,64 @@
 import design from './pouchdb.design';
 import { INote, INotePartial } from '../note/note.module';
+import { EventEmitter } from 'events';
 
-export default class pouchdb {
+export default class pouchdb extends EventEmitter {
 
   private db: PouchDB;
+  private remote: PouchDB;
 
   static $inject = [
     '$log',
-    '$q'
+    '$q',
+    '$rootScope'
   ];
 
   constructor(
     private $log: ng.ILogService,
-    private $q: ng.IQService
+    private $q: ng.IQService,
+    private $rootScope: ng.IRootScopeService
   ) {
 
+    super();
+
+    $log.info('Initializing PouchDB service');
+
+    // local db
     this.db = new PouchDB('sherlock');
 
-    // Replicate from server
+    var stopListening = $rootScope.$on('$currentUser', (error, user) => {
+      stopListening();
+      // remote db
+      this.remote = new PouchDB('https://sherlock.cloudant.com/' + user.username, {
+        auth: {
+          username: user.customData.cloudant_key,
+          password: user.customData.cloudant_password
+        }
+      });
+      // sync local with remote
+      PouchDB.sync(this.db, this.remote, {
+        live: true,
+        retry: true
+      })
+      .on('complete', (info: any) => {
+        this.emit('sync:complete', info);
+      })
+      .on('change', (change: any) => {
+        this.emit('sync:change', change);
+      })
+      .on('paused', (info: any) => {
+        this.emit('sync:paused', info);
+      })
+      .on('active', (info: any) => {
+        this.emit('sync:active', info);
+      })
+      .on('denied', (err: any) => {
+        this.emit('sync:denied', err);
+      })
+      .on('error', (err: any) => {
+        this.emit('sync:error', err);
+      });
+    });
 
     // Index tags
     this.db.put(design)
@@ -30,6 +71,11 @@ export default class pouchdb {
       }
     });
 
+  }
+
+  emit(event: string, ...args: any[]): boolean {
+    this.$log.info(event, ...args);
+    return super.emit(event, ...args);
   }
 
   get(id: string): ng.IPromise<any> {

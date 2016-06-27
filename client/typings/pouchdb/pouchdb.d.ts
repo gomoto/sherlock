@@ -24,7 +24,7 @@ interface PouchInfoResponse {
 }
 
 interface PouchApi {
-	info(callback: (err: PouchError, res: PouchInfoResponse) => void): void;
+	info(callback?: (err: PouchError, res: PouchInfoResponse) => void): PouchPromise;
 }
 
 interface PouchGetOptions {
@@ -158,6 +158,7 @@ interface PouchApi {
 
 interface PouchCancellable {
 	cancel: () => void;
+	on: (event: string, callback: (x: any) => void) => PouchCancellable
 }
 
 interface PouchChangesOptions {
@@ -195,6 +196,8 @@ interface PouchReplicateOptions {
 	continuous?: boolean;
 	onChange?: (e: any) => void;
 	filter?: any;			// Can be either string or PouchFilter
+	live?: boolean;
+	retry?: boolean;
 	complete?: (err: PouchError, res: PouchChanges) => void;
 }
 
@@ -217,12 +220,17 @@ interface PouchApi {
 	revsDiff(req: any, opts: PouchRevsDiffOptions, callback: (missing: any) => void): void;
 	revsDiff(req: any, callback: (missing: any) => void): void;
 	replicate: PouchReplicate;
+	sync(local: PouchDB, remote: PouchDB, options?: PouchReplicateOptions): PouchCancellable;
 }
 
 interface PouchOptions {
 	name?: string;
 	adapter?: string;
 	skip_setup?: boolean;
+	auth: {
+		username: string;
+		password: string;
+	};
 }
 
 interface PouchDB extends PouchApi {
